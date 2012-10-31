@@ -23,9 +23,7 @@ public abstract class AbstractPersistence<T> implements GenericPersistence<T>, S
 
 	@Override
 	public void update(T t) {
-		manager.getTransaction().begin();
 		manager.merge(t);
-		manager.getTransaction().commit();
 	}
 	
 	protected Query getNamedQuery(String nome) {
