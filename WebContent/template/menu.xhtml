@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+<body>
+	<ui:composition>
+		<div class="nav-outer-repeat">
+			<!--  start nav-outer -->
+			<div class="nav-outer">
+
+				<!-- start nav-right -->
+				<div id="nav-right">
+
+					<div class="nav-divider"></div>
+					<div class="showhide-account">
+						<h:link>
+							<h:graphicImage library="images"
+								name="shared/nav/nav_myaccount.gif" width="93" height="14"
+								alt=""></h:graphicImage>
+						</h:link>
+					</div>
+					<div class="nav-divider"></div>
+					<h:link id="logout">
+						<h:graphicImage library="images" name="shared/nav/nav_logout.gif"
+							width="64" height="14" alt=""></h:graphicImage>
+					</h:link>
+					<div class="clear"></div>
+
+					<!--  start account-content -->
+					<div class="account-content">
+						<div class="account-drop-inner">
+							<h:link id="acc-settings">Settings</h:link>
+							<div class="clear"></div>
+							<div class="acc-line"></div>
+							<h:link id="acc-details">Personal details</h:link>
+							<div class="clear"></div>
+							<div class="acc-line"></div>
+							<h:link id="acc-project">Project details</h:link>
+							<div class="clear"></div>
+							<div class="acc-line"></div>
+							<h:link id="acc-inbox">Inbox</h:link>
+							<div class="clear"></div>							
+							<div class="acc-line"></div>
+							<h:link id="acc-stats">Statistics</h:link>							
+						</div>
+					</div>
+					<!--  end account-content -->
+
+				</div>
+				<!-- end nav-right -->
+
+
+				<!--  start nav -->
+				<div class="nav">
+					<div class="table">
+
+						<ul class="select">
+							<li><a href="#nogo"><b>Livro</b> <!--[if IE 7]><!--></a>
+								<!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->
+								<div class="select_sub">
+									<ul class="sub">
+										<li><a href="#nogo">Gerenciar Assunto</a></li>
+										<li><a href="#nogo">Gerenciar Autor</a></li>
+										<li><a href="#nogo">Gerenciar Livro</a></li>
+										<li><a href="#nogo">Gerenciar Editora</a></li>
+										<li><a href="#nogo">Gerenciar Categoria</a></li>
+									</ul>
+								</div> <!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+						</ul>
+
+						<div class="nav-divider"></div>
+
+						<!-- <ul class="current">-->
+						<ul class="select">
+							<li><a href="#nogo"><b>Pessoas</b> <!--[if IE 7]><!--></a>
+								<!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->
+								<div class="select_sub show">
+									<ul class="sub">
+										<li><a href="#nogo">Gerenciar Pessoa</a></li>
+										<!-- <li class="sub_show"><a href="#nogo">Add product</a></li> -->
+										<li><a href="#nogo">Gerenciar Usuario</a></li>
+										<li><a href="#nogo">Gerenciar Locador</a></li>										
+									</ul>
+								</div> <!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+						</ul>
+
+						<div class="nav-divider"></div>
+
+						<ul class="select">
+							<li><a href="#nogo"><b>Emprestimos</b> <!--[if IE 7]><!--></a>
+								<!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->
+								<div class="select_sub">
+									<ul class="sub">
+										<li><a href="#nogo">Gerenciar Emprestimos</a></li>										
+									</ul>
+								</div> <!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+						</ul>
+
+						<div class="nav-divider"></div>
+
+						<ul class="select">
+							<li><a href="#nogo"><b>Regiões</b> <!--[if IE 7]><!--></a> <!--<![endif]-->
+								<!--[if lte IE 6]><table><tr><td><![endif]-->
+								<div class="select_sub">
+									<ul class="sub">
+										<li><a href="#nogo">Gerenciar Cidade</a></li>
+										<li><a href="#nogo">Gerenciar Estado</a></li>
+										<li><a href="#nogo">Gerenciar Pais</a></li>
+
+									</ul>
+								</div> <!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
+						</ul>
+
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<!--  start nav -->
+
+			</div>
+			<div class="clear"></div>
+			<!--  start nav-outer -->
+		</div>
+	</ui:composition>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+<body>
+	<ui:composition>
+		<div id="page-top-outer">
+			<div id="page-top">
+
+				<!-- start logo -->
+				<div id="logo">
+					<h:link>
+						<h:graphicImage library="images" name="shared/logo.png"
+							width="156" height="40" alt=""></h:graphicImage>
+					</h:link>
+				</div>
+				<!-- end logo -->
+				<!--  start top-search -->
+				<ui:include src="/template/search.xhtml"></ui:include>
+				<!--  end top-search -->
+				<div class="clear"></div>
+
+			</div>
+			<!-- End: page-top -->
+		</div>
+	</ui:composition>
+</body>
+</html>

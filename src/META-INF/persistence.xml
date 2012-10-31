@@ -1,0 +1,21 @@
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="Biblioteca-PU" transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>jdbc/Biblioteca-PU</jta-data-source>
+		<properties>		
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />						
+			<property name="hibernate.show_sql" value="true" />	
+			<property name="hibernate.format_sql" value="true" />			
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />					
+			<!--
+			<property name="hibernate.ejb.autodetection" value="class" />	
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/biblioteca" />
+			<property name="hibernate.connection.password" value="2521287" />
+			<property name="hibernate.connection.username" value="root" /> 
+			 -->
+		</properties>
+	</persistence-unit>
+</persistence>
