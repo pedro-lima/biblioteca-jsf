@@ -1,13 +1,11 @@
 package br.com.biblioteca.model.endereco;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
@@ -35,8 +33,7 @@ public class Endereco implements Serializable {
 	private String cep;
 	private int numero;
 	private String complemento;
-	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE,CascadeType.DETACH})
+	@ManyToOne
 	private Cidade cidade;
 	@OneToOne(mappedBy="endereco")
 	private Pessoa pessoa;

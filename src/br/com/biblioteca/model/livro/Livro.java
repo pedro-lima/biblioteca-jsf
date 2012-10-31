@@ -24,17 +24,14 @@ public class Livro implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.MERGE})
+	@ManyToOne
 	private Editora editora;
 	private String titulo;
 	private int ano;
 	private int edicao;
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.MERGE})
+	@ManyToOne
 	private Autor autor;
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.MERGE})
+	@ManyToOne
 	private Assunto assunto;
 	@OneToMany(mappedBy = "livro", cascade = { CascadeType.PERSIST,
 			CascadeType.REFRESH, CascadeType.MERGE})

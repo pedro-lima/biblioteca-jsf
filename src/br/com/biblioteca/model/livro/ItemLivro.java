@@ -3,7 +3,6 @@ package br.com.biblioteca.model.livro;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -29,14 +28,11 @@ public class ItemLivro implements Serializable {
 	@GeneratedValue
 	private Long id;
 	private String codigo;
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.MERGE })
+	@ManyToOne
 	private Livro livro = new Livro();
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.MERGE })
+	@ManyToMany
 	private List<Reserva> reservas = new ArrayList<Reserva>();
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.MERGE })
+	@ManyToMany
 	private List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
 
 	public ItemLivro() {
