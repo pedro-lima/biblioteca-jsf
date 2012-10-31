@@ -1,6 +1,8 @@
 package br.com.biblioteca.model.pessoa;
 
 import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,19 +15,12 @@ import org.hibernate.annotations.NamedQuery;
 import br.com.biblioteca.model.endereco.Endereco;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NamedQueries({
-	@NamedQuery(
-			name="Pessoa.findAll",
-			query="SELECT o FROM Pessoa o"),
-	@NamedQuery(
-			name="Pessoa.count",
-			query="SELECT COUNT(o) FROM Pessoa o"),
-	@NamedQuery(
-			name="Pessoa.findById",
-			query="SELECT o FROM Pessoa o WHERE o.id=:id")
-})
-public abstract class Pessoa implements Serializable{
+		@NamedQuery(name = "Pessoa.findAll", query = "SELECT o FROM Pessoa o"),
+		@NamedQuery(name = "Pessoa.count", query = "SELECT COUNT(o) FROM Pessoa o"),
+		@NamedQuery(name = "Pessoa.findById", query = "SELECT o FROM Pessoa o WHERE o.id=:id") })
+public abstract class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
@@ -33,9 +28,10 @@ public abstract class Pessoa implements Serializable{
 	private String nome;
 	private String rg;
 	private String telefone;
-	@OneToOne
+	@OneToOne(cascade = { CascadeType.PERSIST,
+			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
 	private Endereco endereco;
-
+	
 	public Pessoa() {
 		super();
 	}
@@ -90,7 +86,8 @@ public abstract class Pessoa implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + ", rg=" + rg
+				+ ", telefone=" + telefone + ", endereco=" + endereco + "]";
 	}
 
 }

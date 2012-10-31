@@ -26,11 +26,11 @@ public abstract class AbstractPersistence<T> implements GenericPersistence<T>, S
 		return manager.merge(t);
 	}	
 	
-	protected Query getNamedQuery(String nome) {
+	public Query getNamedQuery(String nome) {
 		return this.manager.createNamedQuery(nome); 
 	}
 	
-	protected Query getNamedQuery(String nome,List<QueryParam> parans) {
+	public Query getNamedQuery(String nome,List<QueryParam> parans) {
 		Query query = this.getNamedQuery(nome);
 		for(QueryParam param:parans) {
 			query.setParameter(param.getName(), param.getValue());
@@ -38,12 +38,12 @@ public abstract class AbstractPersistence<T> implements GenericPersistence<T>, S
 		return query;
 	}
 	
-	protected Query getNamedQuery(String nome,int maxResults, int firstResult) {		
+	public Query getNamedQuery(String nome,int maxResults, int firstResult) {		
 		return this.getNamedQuery(nome).
 				setFirstResult(firstResult).setMaxResults(maxResults);		
 	}
 	
-	protected Query getNamedQuery(String nome,List<QueryParam> parans,	int maxResults, int firstResult) {
+	public Query getNamedQuery(String nome,List<QueryParam> parans,	int maxResults, int firstResult) {
 		return this.getNamedQuery(nome, parans).setFirstResult(firstResult).setMaxResults(maxResults);
 	}
 			

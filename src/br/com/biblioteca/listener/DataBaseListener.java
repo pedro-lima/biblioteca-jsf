@@ -2,7 +2,6 @@ package br.com.biblioteca.listener;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -13,11 +12,15 @@ import br.com.biblioteca.model.livro.Autor;
 import br.com.biblioteca.model.livro.Editora;
 import br.com.biblioteca.model.livro.ItemLivro;
 import br.com.biblioteca.model.livro.Livro;
+import br.com.biblioteca.model.pessoa.Funcionario;
+import br.com.biblioteca.model.pessoa.Locador;
+import br.com.biblioteca.model.pessoa.Usuario;
 import br.com.biblioteca.persistence.endereco.*;
 import br.com.biblioteca.persistence.livro.AssuntoPersistence;
 import br.com.biblioteca.persistence.livro.AutorPersistence;
 import br.com.biblioteca.persistence.livro.EditoraPersistence;
 import br.com.biblioteca.persistence.livro.LivroPersistence;
+import br.com.biblioteca.persistence.pessoa.PessoaPersistence;
 
 /**
  * Application Lifecycle Listener implementation class DataBaseListener
@@ -35,6 +38,10 @@ public class DataBaseListener implements ServletContextListener {
 	private AssuntoPersistence assuntoDao;
 	@EJB
 	private EditoraPersistence editoraDao;
+	@EJB
+	private PessoaPersistence pessoaDao;
+	@EJB
+	private CidadePersistence cidadeDao;
 
 	/**
 	 * Default constructor.
@@ -50,17 +57,28 @@ public class DataBaseListener implements ServletContextListener {
 		this.cadastrarRegioes();
 		this.cadastrarLivros();
 		this.cadastrarPessoa();
-		this.cadastrarEmprestimo();
+		//this.cadastrarEmprestimo();
+	}
+
+	private void cadastrarPessoa() {
+		Cidade cidade = cidadeDao.findAll().get(0);
+		Endereco endereco = new Endereco("Rua das Palmeiras", "Bento",
+				"000000-11111", 22, "Perto da padaria", cidade);
+		Locador locador = new Locador("Pedro", "123456", "88888-9999", endereco);
+		//pessoaDao.create(locador);
+	
+		endereco = new Endereco("Rua das Palmeiras", "Bento",
+				"000000-11111", 22, "Perto da padaria", cidade);
+		Usuario usuario = new Usuario("maria", "123");
+		Funcionario funcionario = new Funcionario("Maria", "123345",
+				"45678234", endereco, usuario, "1234567890");
+		pessoaDao.create(funcionario);
+	
 	}
 
 	private void cadastrarEmprestimo() {
 		// TODO Auto-generated method stub
-		
-	}
 
-	private void cadastrarPessoa() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**
