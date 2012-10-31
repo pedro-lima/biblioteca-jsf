@@ -2,7 +2,9 @@ package br.com.biblioteca.model.emprestimo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,9 +34,8 @@ public class Emprestimo implements Serializable {
 	@Id
 	@GeneratedValue
 	private long id;
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.MERGE, CascadeType.DETACH })
-	private Locador locador = new Locador();
+	@ManyToOne
+	private Locador locador;
 	@Temporal(TemporalType.DATE)
 	private Date dataEmprestimo;
 	@Temporal(TemporalType.DATE)
@@ -42,8 +43,7 @@ public class Emprestimo implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = true)
 	private Date dataDevolucao;
-	@ManyToMany(mappedBy = "emprestimos", cascade = { CascadeType.PERSIST,
-			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
+	@ManyToMany
 	private List<ItemLivro> livros = new ArrayList<ItemLivro>();
 
 	public Emprestimo() {
@@ -51,14 +51,19 @@ public class Emprestimo implements Serializable {
 	}
 
 	public Emprestimo(Locador locador, Date dataEmprestimo,
-			Date dataDevolucaoEsperada, Date dataDevolucao,
-			List<ItemLivro> livros) {
+			Date dataDevolucaoEsperada, List<ItemLivro> livros) {
 		super();
 		this.locador = locador;
 		this.dataEmprestimo = dataEmprestimo;
 		this.dataDevolucaoEsperada = dataDevolucaoEsperada;
-		this.dataDevolucao = dataDevolucao;
 		this.livros = livros;
+	}
+
+	public Emprestimo(Locador locador, int dias, List<ItemLivro> livros) {		
+		this(locador, new Date(System.currentTimeMillis()), 
+				Emprestimo.calcularDataDevolucao(new Date
+						(System.currentTimeMillis()),dias), livros);
+
 	}
 
 	public long getId() {
@@ -116,4 +121,11 @@ public class Emprestimo implements Serializable {
 				+ dataDevolucao + "]";
 	}
 
+	public static Date calcularDataDevolucao(Date dataEmprestimo, int dias) {
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.set(GregorianCalendar.DAY_OF_MONTH,
+				gc.get(GregorianCalendar.DAY_OF_MONTH) + dias);
+		return gc.getTime();
+	}
+	
 }

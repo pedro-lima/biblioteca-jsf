@@ -1,11 +1,14 @@
 package br.com.biblioteca.listener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+
+import br.com.biblioteca.model.emprestimo.Emprestimo;
 import br.com.biblioteca.model.endereco.*;
 import br.com.biblioteca.model.livro.Assunto;
 import br.com.biblioteca.model.livro.Autor;
@@ -15,10 +18,12 @@ import br.com.biblioteca.model.livro.Livro;
 import br.com.biblioteca.model.pessoa.Funcionario;
 import br.com.biblioteca.model.pessoa.Locador;
 import br.com.biblioteca.model.pessoa.Usuario;
+import br.com.biblioteca.persistence.emprestimo.EmprestimoPersistence;
 import br.com.biblioteca.persistence.endereco.*;
 import br.com.biblioteca.persistence.livro.AssuntoPersistence;
 import br.com.biblioteca.persistence.livro.AutorPersistence;
 import br.com.biblioteca.persistence.livro.EditoraPersistence;
+import br.com.biblioteca.persistence.livro.ItemLivroPersistence;
 import br.com.biblioteca.persistence.livro.LivroPersistence;
 import br.com.biblioteca.persistence.pessoa.PessoaPersistence;
 
@@ -42,6 +47,10 @@ public class DataBaseListener implements ServletContextListener {
 	private PessoaPersistence pessoaDao;
 	@EJB
 	private CidadePersistence cidadeDao;
+	@EJB
+	private EmprestimoPersistence emprestimoDao;
+	@EJB
+	private ItemLivroPersistence itemDao;
 
 	/**
 	 * Default constructor.
@@ -61,23 +70,31 @@ public class DataBaseListener implements ServletContextListener {
 	}
 
 	private void cadastrarPessoa() {
-		Cidade cidade = cidadeDao.findAll().get(0);
+		Cidade cidade = cidadeDao.find(1l);
 		Endereco endereco = new Endereco("Rua das Palmeiras", "Bento",
 				"000000-11111", 22, "Perto da padaria", cidade);
 		Locador locador = new Locador("Pedro", "123456", "88888-9999", endereco);
-		//pessoaDao.create(locador);
+		pessoaDao.create(locador);
 	
 		endereco = new Endereco("Rua das Palmeiras", "Bento",
 				"000000-11111", 22, "Perto da padaria", cidade);
 		Usuario usuario = new Usuario("maria", "123");
 		Funcionario funcionario = new Funcionario("Maria", "123345",
-				"45678234", endereco, usuario, "1234567890");
-		pessoaDao.create(funcionario);
-	
+				"45678234", endereco, usuario, "123456asd7890");
+		usuario.setFuncionario(funcionario);
+		pessoaDao.create(funcionario);	
+		
 	}
 
 	private void cadastrarEmprestimo() {
-		// TODO Auto-generated method stub
+		Locador locador = (Locador) pessoaDao.find(1l);		
+		List<ItemLivro> livros = new ArrayList<ItemLivro>();
+		ItemLivro item = itemDao.find(1l);		
+		livros.add(itemDao.find(1l));
+		Emprestimo emprestimo = new Emprestimo(locador, 10,livros);
+		item.getEmprestimos().add(emprestimo);
+		locador.getEmprestimos().add(emprestimo);		
+		emprestimoDao.create(emprestimo);
 
 	}
 

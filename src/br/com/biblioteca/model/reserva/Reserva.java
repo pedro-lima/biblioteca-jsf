@@ -43,13 +43,11 @@ public class Reserva implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE,CascadeType.DETACH})
+	@ManyToOne
 	private Locador locador = new Locador();
 	@Temporal(TemporalType.DATE)
 	private Date dataReserva;
-	@ManyToMany(mappedBy="reservas",cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE,CascadeType.DETACH})
+	@ManyToMany
 	private List<ItemLivro> livros = new ArrayList<ItemLivro>();
 	@Enumerated(EnumType.STRING)
 	private StatusReserva status;
