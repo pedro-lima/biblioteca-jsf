@@ -13,32 +13,21 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(
-			name="Assunto.findAll",
-			query="SELECT o FROM Assunto o"),
-	@NamedQuery(
-			name="Assunto.count",
-			query="SELECT COUNT(o) FROM Assunto o"),
-	@NamedQuery(
-			name="Assunto.findById",
-			query="SELECT o FROM Assunto o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Assunto.Livro.count",
-			query="SELECT COUNT(o.livros) FROM Assunto o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Assunto.Livro.findAll",
-			query="SELECT o.livros FROM Assunto o WHERE o.id=:id")
-})
+		@NamedQuery(name = "Assunto.findAll", query = "SELECT o FROM Assunto o"),
+		@NamedQuery(name = "Assunto.count", query = "SELECT COUNT(o) FROM Assunto o"),
+		@NamedQuery(name = "Assunto.findById", query = "SELECT o FROM Assunto o WHERE o.id=:id"),
+		@NamedQuery(name = "Assunto.Livro.count", query = "SELECT COUNT(o.livros) FROM Assunto o WHERE o.id=:id"),
+		@NamedQuery(name = "Assunto.Livro.findAll", query = "SELECT o.livros FROM Assunto o WHERE o.id=:id") })
 public class Assunto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private Long id;
 	private String nome;
-	@OneToMany(mappedBy="assunto",cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE})
-	private  List<Livro> livros = new ArrayList<Livro>();
-		
+	@OneToMany(mappedBy = "assunto", cascade = { CascadeType.PERSIST,
+			CascadeType.REFRESH, CascadeType.MERGE })
+	private List<Livro> livros = new ArrayList<Livro>();
+
 	public Assunto() {
 		super();
 	}
@@ -75,6 +64,6 @@ public class Assunto implements Serializable {
 	@Override
 	public String toString() {
 		return "Assunto [id=" + id + ", nome=" + nome + "]";
-	}	
-	
+	}
+
 }

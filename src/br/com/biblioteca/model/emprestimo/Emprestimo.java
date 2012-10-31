@@ -20,22 +20,11 @@ import br.com.biblioteca.model.pessoa.Locador;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(
-			name="Emprestimo.findAll",
-			query="SELECT o FROM Emprestimo o"),
-	@NamedQuery(
-			name="Emprestimo.count",
-			query="SELECT COUNT(o) FROM Emprestimo o"),
-	@NamedQuery(
-			name="Emprestimo.findById",
-			query="SELECT o FROM Emprestimo o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Emprestimo.Livro.count",
-			query="SELECT COUNT(o.livros) FROM Emprestimo o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Emprestimo.Livro.findAll",
-			query="SELECT o.livros FROM Emprestimo o WHERE o.id=:id"),
-})
+		@NamedQuery(name = "Emprestimo.findAll", query = "SELECT o FROM Emprestimo o"),
+		@NamedQuery(name = "Emprestimo.count", query = "SELECT COUNT(o) FROM Emprestimo o"),
+		@NamedQuery(name = "Emprestimo.findById", query = "SELECT o FROM Emprestimo o WHERE o.id=:id"),
+		@NamedQuery(name = "Emprestimo.Livro.count", query = "SELECT COUNT(o.livros) FROM Emprestimo o WHERE o.id=:id"),
+		@NamedQuery(name = "Emprestimo.Livro.findAll", query = "SELECT o.livros FROM Emprestimo o WHERE o.id=:id"), })
 public class Emprestimo implements Serializable {
 	@SuppressWarnings("unused")
 	private static final int diasLimite = 12;
@@ -43,18 +32,18 @@ public class Emprestimo implements Serializable {
 	@Id
 	@GeneratedValue
 	private long id;
-	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE,CascadeType.DETACH})
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
+			CascadeType.MERGE, CascadeType.DETACH })
 	private Locador locador = new Locador();
 	@Temporal(TemporalType.DATE)
 	private Date dataEmprestimo;
 	@Temporal(TemporalType.DATE)
 	private Date dataDevolucaoEsperada;
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=true)
+	@Column(nullable = true)
 	private Date dataDevolucao;
-	@ManyToMany(mappedBy="emprestimos",cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE,CascadeType.DETACH})
+	@ManyToMany(mappedBy = "emprestimos", cascade = { CascadeType.PERSIST,
+			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
 	private List<ItemLivro> livros = new ArrayList<ItemLivro>();
 
 	public Emprestimo() {
