@@ -66,7 +66,7 @@ public class DataBaseListener implements ServletContextListener {
 		this.cadastrarRegioes();
 		this.cadastrarLivros();
 		this.cadastrarPessoa();
-		//this.cadastrarEmprestimo();
+		this.cadastrarEmprestimo();
 	}
 
 	private void cadastrarPessoa() {
@@ -87,12 +87,11 @@ public class DataBaseListener implements ServletContextListener {
 	}
 
 	private void cadastrarEmprestimo() {
-		Locador locador = (Locador) pessoaDao.find(1l);		
 		List<ItemLivro> livros = new ArrayList<ItemLivro>();
-		ItemLivro item = itemDao.find(1l);		
 		livros.add(itemDao.find(1l));
-		Emprestimo emprestimo = new Emprestimo(locador, 10,livros);
-		item.getEmprestimos().add(emprestimo);
+		
+		Locador locador = (Locador) pessoaDao.find(1l);		
+		Emprestimo emprestimo = new Emprestimo(locador,livros,10);		
 		locador.getEmprestimos().add(emprestimo);		
 		emprestimoDao.create(emprestimo);
 

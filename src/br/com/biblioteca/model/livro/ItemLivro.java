@@ -21,7 +21,8 @@ import br.com.biblioteca.model.reserva.Reserva;
 		@NamedQuery(name = "ItemLivro.Reserva.count", query = "SELECT COUNT(o.reservas) FROM ItemLivro o WHERE o.id=:id"),
 		@NamedQuery(name = "ItemLivro.Reserva.findAll", query = "SELECT o.reservas FROM ItemLivro o WHERE o.id=:id"),
 		@NamedQuery(name = "ItemLivro.Emprestimo.count", query = "SELECT COUNT(o.emprestimos) FROM ItemLivro o WHERE o.id=:id"),
-		@NamedQuery(name = "ItemLivro.Emprestimo.findAll", query = "SELECT o.emprestimos FROM ItemLivro o WHERE o.id=:id") })
+		@NamedQuery(name = "ItemLivro.Emprestimo.findAll", query = "SELECT o.emprestimos FROM ItemLivro o WHERE o.id=:id") 
+		})
 public class ItemLivro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

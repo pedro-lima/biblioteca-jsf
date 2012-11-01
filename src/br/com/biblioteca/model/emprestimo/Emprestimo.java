@@ -2,11 +2,9 @@ package br.com.biblioteca.model.emprestimo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +24,8 @@ import br.com.biblioteca.model.pessoa.Locador;
 		@NamedQuery(name = "Emprestimo.count", query = "SELECT COUNT(o) FROM Emprestimo o"),
 		@NamedQuery(name = "Emprestimo.findById", query = "SELECT o FROM Emprestimo o WHERE o.id=:id"),
 		@NamedQuery(name = "Emprestimo.Livro.count", query = "SELECT COUNT(o.livros) FROM Emprestimo o WHERE o.id=:id"),
-		@NamedQuery(name = "Emprestimo.Livro.findAll", query = "SELECT o.livros FROM Emprestimo o WHERE o.id=:id"), })
+		@NamedQuery(name = "Emprestimo.Livro.findAll", query = "SELECT o.livros FROM Emprestimo o WHERE o.id=:id"), 
+		})
 public class Emprestimo implements Serializable {
 	@SuppressWarnings("unused")
 	private static final int diasLimite = 12;
@@ -49,21 +48,20 @@ public class Emprestimo implements Serializable {
 	public Emprestimo() {
 		super();
 	}
-
+	
 	public Emprestimo(Locador locador, Date dataEmprestimo,
-			Date dataDevolucaoEsperada, List<ItemLivro> livros) {
+			Date dataDevolucaoEsperada,	List<ItemLivro> livros) {
 		super();
 		this.locador = locador;
 		this.dataEmprestimo = dataEmprestimo;
-		this.dataDevolucaoEsperada = dataDevolucaoEsperada;
+		this.dataDevolucaoEsperada = dataDevolucaoEsperada;		
 		this.livros = livros;
 	}
-
-	public Emprestimo(Locador locador, int dias, List<ItemLivro> livros) {		
-		this(locador, new Date(System.currentTimeMillis()), 
-				Emprestimo.calcularDataDevolucao(new Date
-						(System.currentTimeMillis()),dias), livros);
-
+	
+	public Emprestimo(Locador locador, List<ItemLivro> livros,int dias) {
+		this(locador,new Date(System.currentTimeMillis()),
+				Emprestimo.calcularDataDevolucao(new 
+						Date(System.currentTimeMillis()),dias),livros);	
 	}
 
 	public long getId() {

@@ -13,10 +13,7 @@ public class PessoaPersistence extends AbstractPersistence<Pessoa> {
 
 	@Override
 	public Pessoa find(long id) {
-		List<QueryParam> parans = new ArrayList<QueryParam>();
-		parans.add(new QueryParam("id",id));
-		return (Pessoa) this.getNamedQuery("Pessoa.findById", parans).
-				getSingleResult();
+		return this.manager.find(Pessoa.class,id);
 	}
 
 	@Override

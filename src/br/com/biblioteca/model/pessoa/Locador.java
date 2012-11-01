@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -21,10 +22,10 @@ import br.com.biblioteca.model.reserva.Reserva;
 public class Locador extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy = "locador", cascade = { CascadeType.PERSIST,
-			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
-	private List<Reserva> reservas;
+			CascadeType.REFRESH, CascadeType.MERGE})
+	private List<Reserva> reservas = new ArrayList<Reserva>();
 	@OneToMany(mappedBy = "locador", cascade = { CascadeType.PERSIST,
-			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
+			CascadeType.REFRESH, CascadeType.MERGE},fetch=FetchType.EAGER)
 	private List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
 	
 	public Locador() {
