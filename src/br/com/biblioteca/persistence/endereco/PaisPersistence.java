@@ -34,6 +34,6 @@ public class PaisPersistence extends AbstractPersistence<Pais>{
 	@Override
 	public long count() {
         return (Long) this.getNamedQuery("Pais.count").getSingleResult();
-	}
+	}	
 	
 }

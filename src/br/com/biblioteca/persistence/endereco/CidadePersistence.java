@@ -13,10 +13,7 @@ public class CidadePersistence extends AbstractPersistence<Cidade> {
 
 	@Override
 	public Cidade find(long id) {
-		List<QueryParam> parans = new ArrayList<QueryParam>();
-		parans.add(new QueryParam("id",id));
-		return (Cidade) this.getNamedQuery("Cidade.findById", parans).
-				getSingleResult();
+		return this.manager.find(Cidade.class, id);
 	}
 
 	@Override
@@ -33,8 +30,15 @@ public class CidadePersistence extends AbstractPersistence<Cidade> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Cidade> findRange(int maxResults, int firstResult) {
-		return this.getNamedQuery("Cidade.findAll", maxResults, firstResult).
-				getResultList();
+		return this.getNamedQuery("Cidade.findAll", maxResults, firstResult)
+				.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Cidade> findAllByEstado(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id", id));
+		return this.getNamedQuery("Estado.Cidade.findAll", parans).getResultList();
 	}
 
 }

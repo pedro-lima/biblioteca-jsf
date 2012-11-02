@@ -13,28 +13,32 @@ public class EstadoPersistence extends AbstractPersistence<Estado> {
 
 	@Override
 	public Estado find(long id) {
-		List<QueryParam> parans = new ArrayList<QueryParam>();
-		parans.add(new QueryParam("id",id));
-		return (Estado) this.getNamedQuery("Estado.findById", parans).
-				getSingleResult();
+		return this.manager.find(Estado.class, id);
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Estado> findAll() {
 		return this.getNamedQuery("Estado.findAll").getResultList();
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Estado> findRange(int maxResults, int firstResult) {
-		return this.getNamedQuery("Estado.findAll", 
-				maxResults, firstResult).getResultList();
+		return this.getNamedQuery("Estado.findAll", maxResults, firstResult)
+				.getResultList();
 	}
 
 	@Override
 	public long count() {
 		return (Long) this.getNamedQuery("Estado.count").getSingleResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Estado> findAllByPais(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id", id));
+		return this.getNamedQuery("Pais.Estado.findAll", parans).getResultList();
 	}
 
 }
