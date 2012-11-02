@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import br.com.biblioteca.model.emprestimo.Emprestimo;
+import br.com.biblioteca.model.pessoa.Locador;
 import br.com.biblioteca.persistence.AbstractPersistence;
 import br.com.biblioteca.persistence.QueryParam;
 
@@ -13,16 +14,21 @@ public class EmprestimoPersistence extends AbstractPersistence<Emprestimo> {
 
 	@Override
 	public Emprestimo find(long id) {
-		List<QueryParam> parans = new ArrayList<QueryParam>();
-		parans.add(new QueryParam("id",id));
-		return (Emprestimo) this.getNamedQuery("Emprestimo.findById").
-				getSingleResult();
+		return this.manager.find(Emprestimo.class,id);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Emprestimo> findAll() {
 		return this.getNamedQuery("Emprestimo.findAll").getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Emprestimo> findAllAtivoByEmprestimo(Locador locador) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id",locador.getId()));
+		return this.getNamedQuery("Emprestimo.findAll.Ativo",parans).
+				getResultList();		
 	}
 
 	@Override

@@ -24,8 +24,9 @@ import br.com.biblioteca.model.pessoa.Locador;
 		@NamedQuery(name = "Emprestimo.count", query = "SELECT COUNT(o) FROM Emprestimo o"),
 		@NamedQuery(name = "Emprestimo.findById", query = "SELECT o FROM Emprestimo o WHERE o.id=:id"),
 		@NamedQuery(name = "Emprestimo.Livro.count", query = "SELECT COUNT(o.livros) FROM Emprestimo o WHERE o.id=:id"),
-		@NamedQuery(name = "Emprestimo.Livro.findAll", query = "SELECT o.livros FROM Emprestimo o WHERE o.id=:id"), 
-		})
+		@NamedQuery(name = "Emprestimo.Livro.findAll", query = "SELECT o.livros FROM Emprestimo o WHERE o.id=:id"),
+		@NamedQuery(name = "Emprestimo.findAll.Ativo", query = "SELECT o FROM Emprestimo o "
+				+ " WHERE o.locador.id=:id AND o.dataDevolucao IS NULL") })
 public class Emprestimo implements Serializable {
 	@SuppressWarnings("unused")
 	private static final int diasLimite = 12;
@@ -48,20 +49,20 @@ public class Emprestimo implements Serializable {
 	public Emprestimo() {
 		super();
 	}
-	
+
 	public Emprestimo(Locador locador, Date dataEmprestimo,
-			Date dataDevolucaoEsperada,	List<ItemLivro> livros) {
+			Date dataDevolucaoEsperada, List<ItemLivro> livros) {
 		super();
 		this.locador = locador;
 		this.dataEmprestimo = dataEmprestimo;
-		this.dataDevolucaoEsperada = dataDevolucaoEsperada;		
+		this.dataDevolucaoEsperada = dataDevolucaoEsperada;
 		this.livros = livros;
 	}
-	
-	public Emprestimo(Locador locador, List<ItemLivro> livros,int dias) {
-		this(locador,new Date(System.currentTimeMillis()),
-				Emprestimo.calcularDataDevolucao(new 
-						Date(System.currentTimeMillis()),dias),livros);	
+
+	public Emprestimo(Locador locador, List<ItemLivro> livros, int dias) {
+		this(locador, new Date(System.currentTimeMillis()), Emprestimo
+				.calcularDataDevolucao(new Date(System.currentTimeMillis()),
+						dias), livros);
 	}
 
 	public long getId() {
@@ -123,7 +124,11 @@ public class Emprestimo implements Serializable {
 		GregorianCalendar gc = new GregorianCalendar();
 		gc.set(GregorianCalendar.DAY_OF_MONTH,
 				gc.get(GregorianCalendar.DAY_OF_MONTH) + dias);
+		//if (gc.DAY_OF_WEEK == Calendar.SUNDAY) {
+		//	gc.set(GregorianCalendar.DAY_OF_MONTH,
+		//			gc.get(GregorianCalendar.DAY_OF_MONTH) + 1);
+		//}
 		return gc.getTime();
 	}
-	
+
 }

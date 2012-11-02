@@ -13,12 +13,14 @@
 	<!--[if IE]>
 		<link rel="stylesheet" media="all" type="text/css" href="css/pro_dropline_ie.css" />
 		<![endif]-->
-	<ui:insert name="head">
+	<ui:insert name="style">
 	</ui:insert>
 </h:head>
 <h:body>
 	<!-- Start: page-top-outer -->
-	<ui:include src="/template/header.xhtml"></ui:include>
+	<ui:insert name="header">
+		<ui:include src="/template/header.xhtml"></ui:include>
+	</ui:insert>
 	<!-- End: page-top-outer -->
 
 	<div class="clear">&nbsp;</div>
@@ -32,7 +34,7 @@
 				<h1>#{pageTitle}</h1>
 			</div>
 			<!-- end page-heading -->
-
+			<ui:debug hotkey="z"></ui:debug>
 			<ui:insert name="content">
     			Content area.  See comments below this line in the source.
     			<!--  include your content file or uncomment the include below and create content.xhtml in this directory -->
@@ -40,6 +42,7 @@
 				<!-- <ui:include src="content.xhtml"/> -->
 				<!-- </div> -->
 			</ui:insert>
+
 			<div class="clear">&nbsp;</div>
 		</div>
 		<!--  end content -->
@@ -47,7 +50,9 @@
 	</div>
 	<div class="clear">&nbsp;</div>
 	<!-- start footer -->
-	<ui:include src="/template/footer.xhtml"></ui:include>
+	<ui:insert name="footer">
+		<ui:include src="/template/footer.xhtml"></ui:include>
+	</ui:insert>
 	<!-- end footer -->
 </h:body>
 </html>

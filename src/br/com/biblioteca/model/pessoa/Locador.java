@@ -18,16 +18,16 @@ import br.com.biblioteca.model.reserva.Reserva;
 		@NamedQuery(name = "Locador.count", query = "SELECT COUNT(o) FROM Locador o"),
 		@NamedQuery(name = "Locador.findById", query = "SELECT o FROM Locador o WHERE o.id=:id"),
 		@NamedQuery(name = "Locador.Emprestimo.count", query = "SELECT COUNT(o.emprestimos) FROM Locador o WHERE o.id=:id"),
-		@NamedQuery(name = "Locador.Emprestimo.findAll", query = "SELECT o.emprestimos FROM Locador o WHERE o.id=:id"), })
+		@NamedQuery(name = "Locador.Emprestimo.findAll", query = "SELECT o.emprestimos FROM Locador o WHERE o.id=:id")})
 public class Locador extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy = "locador", cascade = { CascadeType.PERSIST,
-			CascadeType.REFRESH, CascadeType.MERGE})
+			CascadeType.REFRESH, CascadeType.MERGE })
 	private List<Reserva> reservas = new ArrayList<Reserva>();
 	@OneToMany(mappedBy = "locador", cascade = { CascadeType.PERSIST,
-			CascadeType.REFRESH, CascadeType.MERGE},fetch=FetchType.EAGER)
+			CascadeType.REFRESH, CascadeType.MERGE })
 	private List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
-	
+
 	public Locador() {
 		super();
 	}
@@ -57,5 +57,5 @@ public class Locador extends Pessoa {
 		return "Locador [reservas=" + reservas + ", emprestimos=" + emprestimos
 				+ "]";
 	}
-	
+
 }

@@ -1,13 +1,11 @@
 package br.com.biblioteca.listener;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-
 import br.com.biblioteca.model.emprestimo.Emprestimo;
 import br.com.biblioteca.model.endereco.*;
 import br.com.biblioteca.model.livro.Assunto;
@@ -64,9 +62,9 @@ public class DataBaseListener implements ServletContextListener {
 	 */
 	public void contextInitialized(ServletContextEvent arg0) {
 		this.cadastrarRegioes();
-		this.cadastrarLivros();
-		this.cadastrarPessoa();
-		this.cadastrarEmprestimo();
+		//this.cadastrarLivros();
+		//this.cadastrarPessoa();
+		//this.cadastrarEmprestimo();
 	}
 
 	private void cadastrarPessoa() {
@@ -75,31 +73,29 @@ public class DataBaseListener implements ServletContextListener {
 				"000000-11111", 22, "Perto da padaria", cidade);
 		Locador locador = new Locador("Pedro", "123456", "88888-9999", endereco);
 		pessoaDao.create(locador);
-	
-		endereco = new Endereco("Rua das Palmeiras", "Bento",
-				"000000-11111", 22, "Perto da padaria", cidade);
+
+		endereco = new Endereco("Rua das Palmeiras", "Bento", "000000-11111",
+				22, "Perto da padaria", cidade);
 		Usuario usuario = new Usuario("maria", "123");
 		Funcionario funcionario = new Funcionario("Maria", "123345",
 				"45678234", endereco, usuario, "123456asd7890");
 		usuario.setFuncionario(funcionario);
-		pessoaDao.create(funcionario);	
-		
+		pessoaDao.create(funcionario);
+
 	}
 
 	private void cadastrarEmprestimo() {
 		List<ItemLivro> livros = new ArrayList<ItemLivro>();
 		livros.add(itemDao.find(1l));
-		
-		Locador locador = (Locador) pessoaDao.find(1l);		
-		Emprestimo emprestimo = new Emprestimo(locador,livros,10);		
-		locador.getEmprestimos().add(emprestimo);		
+
+		Locador locador = (Locador) pessoaDao.find(1l);
+		List<Emprestimo> emprestimos = emprestimoDao.findAllAtivoByEmprestimo(locador);
+		Emprestimo emprestimo = new Emprestimo(locador, livros, 10);
+		emprestimos.add(emprestimo);
 		emprestimoDao.create(emprestimo);
 
 	}
 
-	/**
-	 * @see ServletContextListener#contextDestroyed(ServletContextEvent)
-	 */
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
 	}

@@ -1,11 +1,9 @@
 package br.com.biblioteca.persistence.pessoa;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import br.com.biblioteca.model.pessoa.Pessoa;
 import br.com.biblioteca.persistence.AbstractPersistence;
-import br.com.biblioteca.persistence.QueryParam;
 
 @Stateless
 public class PessoaPersistence extends AbstractPersistence<Pessoa> {
