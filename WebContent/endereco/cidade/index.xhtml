@@ -11,33 +11,33 @@
 		<ui:param name="pageTitle" value="Listar Cidades"></ui:param>
 		<ui:define name="content">
 			<h:form id="form">
+
 				<p:panel id="panel" header="Registro" toggleable="true">
 					<p:focus context="panel" />
 					<h:outputText value="#{cidadeBean.cidadeSelecionada}"></h:outputText>
-					<h:panelGrid columns="2" cellspacing="50">
+					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputText value="Nome:"></h:outputText>
 						<h:panelGroup>
 							<p:inputText id="cidade-name" label="username" size="40"
-								requiredMessage="Por favor, insira o nome da cidade."
 								value="#{cidadeBean.cidadeSelecionada.nome}">
 							</p:inputText>
 							<p:message for="cidade-name" />
 						</h:panelGroup>
 						<h:outputText value="Pais:"></h:outputText>
-						<p:selectOneMenu value="#{cidadeBean.paisSelecionado}"
-							onchange="submit()"
-							valueChangeListener="#{cidadeBean.valueChangePais}" effect="fade">
-							<f:selectItem itemLabel="Select One" itemValue="" />
-							<f:selectItems value="#{cidadeBean.allPais}" var="pais"
-								itemLabel="#{pais.nome}" itemValue="#{pais}"></f:selectItems>
-						</p:selectOneMenu>		
-						<h:selectOneMenu value="#{cidadeBean.paisSelecionado}"
-							onchange="submit()"
-							valueChangeListener="#{cidadeBean.valueChangePais}" effect="fade">
-							<f:selectItem itemLabel="Select One" itemValue="" />
-							<f:selectItems value="#{cidadeBean.allPais}" var="pais"
-								itemLabel="#{pais.nome}" itemValue="#{pais}"></f:selectItems>
-						</h:selectOneMenu>						
+						<p:selectOneMenu id="city" value="#{cidadeBean.paisSelecionado}">							
+							<f:selectItems value="#{cidadeBean.listaPais}" />
+							<p:ajax update="listaEsdadosFiltrados"
+								listener="#{cidadeBean.valueChangePais}" event="change" />
+						</p:selectOneMenu>
+						<h:outputText value="Estado:"></h:outputText>
+						<p:selectOneMenu id="listaEsdadosFiltrados"
+							value="#{cidadeBean.estadoSelecionado}">							
+							<f:selectItems value="#{cidadeBean.listaEsdados}" />
+						</p:selectOneMenu>
+						<p:commandButton actionListener="#{cidadeBean.prepararNovaCidade}"
+							update=":form:panel" ajax="false" value="Salvar"></p:commandButton>
+						<p:commandButton actionListener="#{cidadeBean.prepararNovaCidade}"
+							update=":form:panel" ajax="false" value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
 
@@ -58,10 +58,10 @@
 						<h:outputText value="#{cidade.nome}" />
 					</p:column>
 					<p:column headerText="Estado" style="width:30%">
-						<h:outputText value="#{cidade.nome}" />
+						<h:outputText value="#{cidade.estado.nome}" />
 					</p:column>
 					<p:column headerText="Pais" style="width:30%">
-						<h:outputText value="#{cidade.nome}" />
+						<h:outputText value="#{cidade.estado.pais.nome}" />
 					</p:column>
 					<p:column>
 						<p:commandButton id="selectButton" update=":form:panel"

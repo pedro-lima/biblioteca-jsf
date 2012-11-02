@@ -1,10 +1,12 @@
 package br.com.biblioteca.controller.endereco;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import br.com.biblioteca.model.endereco.Cidade;
 import br.com.biblioteca.model.endereco.Estado;
@@ -25,9 +27,10 @@ public class CidadeController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final String indexURL = "/endereco/cidade/index.xhtml";
 	private Cidade cidadeSelecionada = new Cidade();
-	private Pais paisSelecionado = new Pais();
-	private Estado estadoSelecionado = new Estado();
-	private List<Estado> listaEsdadosFiltradas;
+	private long paisSelecionado;
+	private long estadoSelecionado;
+	private List<SelectItem> listaEsdados = new ArrayList<SelectItem>();
+	private List<SelectItem> listaPais;
 	
 	public CidadeController() {
 		super();
@@ -56,52 +59,68 @@ public class CidadeController implements Serializable {
 	public void setCidadeSelecionada(Cidade cidade) {
 		this.cidadeSelecionada = cidade;
 	}
-
-	public Pais getPaisSelecionado() {
+	
+	public long getPaisSelecionado() {
 		return paisSelecionado;
 	}
 
-	public void setPaisSelecionado(Pais paisSelecionado) {
+	public void setPaisSelecionado(long paisSelecionado) {
 		this.paisSelecionado = paisSelecionado;
 	}
 
-	public Estado getEstadoSelecionado() {
+	public List<SelectItem> getListaPais() {
+		if(this.listaPais == null){
+			this.listaPais = new ArrayList<SelectItem>();
+			for(Pais pais : this.paisDao.findAll()) {
+				this.listaPais.add(new SelectItem(pais.getId(), pais.getNome()));	
+			}
+		}
+		return listaPais;
+	}
+
+	public long getEstadoSelecionado() {
 		return estadoSelecionado;
 	}
 
-	public void setEstadoSelecionado(Estado estadoSelecionado) {
+	public void setEstadoSelecionado(long estadoSelecionado) {
 		this.estadoSelecionado = estadoSelecionado;
 	}
-	
+
 	public List<Estado> getEstadosByPais() {
-		return estadoDao.findAllByPais(paisSelecionado.getId());
+		return estadoDao.findAllByPais(new Long(this.paisSelecionado));
 	}
 	
-	public List<Pais> getAllPais() {
-		return this.paisDao.findAll();
-	}
-	
-	public List<Estado> getListaEsdadosFiltradas() {
-		return listaEsdadosFiltradas;
+	public List<SelectItem> getListaEsdados() {
+		return listaEsdados;
 	}
 
-	public void setListaEsdadosFiltradas(List<Estado> listaEsdadosFiltradas) {
-		this.listaEsdadosFiltradas = listaEsdadosFiltradas;
+	public void setListaEsdados(List<SelectItem> listaEsdados) {
+		this.listaEsdados = listaEsdados;
+	} 
+
+	public void valueChangePais(ValueChangeEvent e){		
+		criarCidadesListagem();		
 	}
 
-	public void valueChangePais(ValueChangeEvent e){
-		this.setListaEsdadosFiltradas(this.getEstadosByPais());
+	private void criarCidadesListagem() {
+		this.listaEsdados.clear();
+		for(Estado es:  this.getEstadosByPais()){
+			this.listaEsdados.add(new SelectItem(es.getId(), es.getNome()));			
+		}
 	}	
 		
 	public void prepararAlterarCidade(Cidade cidade) {
 		this.setCidadeSelecionada(cidade);
-		this.setPaisSelecionado(cidade.getEstado().getPais());
-		this.setListaEsdadosFiltradas(this.getEstadosByPais());
-		this.setEstadoSelecionado(cidade.getEstado());		
-		System.out.println(cidade);
-		System.out.println(cidade.getEstado());
-		System.out.println(cidade.getEstado().getPais());
-		System.out.println(this.paisSelecionado);
+		this.setPaisSelecionado(cidade.getEstado().getPais().getId());
+		this.criarCidadesListagem();
+		this.setEstadoSelecionado(cidade.getEstado().getId());
+		//this.setPaisSelecionado(cidade.getEstado().getPais());
+		//this.setListaEsdadosFiltrados(this.getEstadosByPais());
+		//this.setEstadoSelecionado(cidade.getEstado());		
+		//System.out.println(cidade);
+		//System.out.println(cidade.getEstado());
+		//System.out.println(cidade.getEstado().getPais());
+		//System.out.println(this.paisSelecionado);
 	}
-
+	
 }
