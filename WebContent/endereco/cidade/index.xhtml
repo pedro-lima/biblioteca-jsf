@@ -16,7 +16,7 @@
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputText value="Nome:"></h:outputText>
 						<h:panelGroup>
-							<p:inputText id="cidade-name" label="username" size="40"
+							<p:inputText id="cidade-name" label="nome" size="40" required="true" requiredMessage="Por favor, insira o nome."
 								value="#{cidadeBean.cidadeSelecionada.nome}">
 							</p:inputText>
 							<p:message for="cidade-name" />
