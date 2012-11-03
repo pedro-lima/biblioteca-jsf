@@ -15,6 +15,12 @@ public class EstadoPersistence extends AbstractPersistence<Estado> {
 	public Estado find(long id) {
 		return this.manager.find(Estado.class, id);
 	}
+	
+	public Estado findEstadoGetCidades(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id", id));
+		return (Estado) this.getNamedQuery("Estado.Join.Cidade", parans).getSingleResult();
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")

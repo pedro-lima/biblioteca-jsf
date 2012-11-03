@@ -12,18 +12,18 @@ public abstract class AbstractPersistence<T> implements GenericPersistence<T>, S
 	protected EntityManager manager;
 		
 	@Override
-	public void create(T t) {		
-		manager.persist(t);		
+	public void create(T t) {
+		manager.persist(t);
 	}
 
 	@Override
 	public void remove(T t) {
-		manager.remove(t);
+		manager.remove(t); 
 	}
 
 	@Override
-	public T update(T t) {
-		return manager.merge(t);
+	public void update(T t) {
+		manager.merge(t);
 	}	
 	
 	public Query getNamedQuery(String nome) {

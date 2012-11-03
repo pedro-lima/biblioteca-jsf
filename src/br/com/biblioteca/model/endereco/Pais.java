@@ -13,30 +13,20 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(
-			name="Pais.findAll",
-			query="SELECT o FROM Pais o"),
-	@NamedQuery(
-			name="Pais.count",
-			query="SELECT COUNT(o) FROM Pais o"),
-	@NamedQuery(
-			name="Pais.findById",
-			query="SELECT o FROM Pais o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Pais.Estado.count",
-			query="SELECT COUNT(o.estados) FROM Pais o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Pais.Estado.findAll",
-			query="SELECT o.estados FROM Pais o WHERE o.id=:id"),
-})
-public class Pais  implements Serializable{
+		@NamedQuery(name = "Pais.findAll", query = "SELECT o FROM Pais o"),
+		@NamedQuery(name = "Pais.count", query = "SELECT COUNT(o) FROM Pais o"),
+		@NamedQuery(name = "Pais.findById", query = "SELECT o FROM Pais o WHERE o.id=:id"),
+		@NamedQuery(name = "Pais.Estado.count", query = "SELECT COUNT(o.estados) FROM Pais o WHERE o.id=:id"),
+		@NamedQuery(name = "Pais.Estado.findAll", query = "SELECT o.estados FROM Pais o WHERE o.id=:id"),
+		@NamedQuery(name = "Pais.Join.Estado", query = "SELECT o from Pais o LEFT JOIN FETCH o.estados WHERE o.id=:id")})
+public class Pais implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private Long id;
 	private String nome;
-	@OneToMany(mappedBy="pais",cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE,CascadeType.DETACH})
+	@OneToMany(mappedBy = "pais", cascade = { CascadeType.PERSIST,
+			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
 	private List<Estado> estados = new ArrayList<Estado>();
 
 	public Pais() {

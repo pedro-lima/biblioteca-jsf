@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import br.com.biblioteca.model.endereco.Cidade;
@@ -31,21 +31,36 @@ public class CidadeController implements Serializable {
 	private long estadoSelecionado;
 	private List<SelectItem> listaEsdados = new ArrayList<SelectItem>();
 	private List<SelectItem> listaPais;
-	
+
 	public CidadeController() {
 		super();
 	}
-		
+
 	public void prepararNovaCidade() {
 		this.cidadeSelecionada = new Cidade();
-	} 
-
-	public void adicionarCidade() {
-		cidadeDao.create(cidadeSelecionada);
 	}
 
-	public void alterarCidade() {
-		cidadeDao.update(cidadeSelecionada);		
+	public void salvarCidade() {
+		try {
+			Estado estadoNovo = estadoDao.findEstadoGetCidades(this.estadoSelecionado);
+			if (this.getCidadeSelecionada().getId() == null) {				
+				cidadeSelecionada.setEstado(estadoNovo);
+				estadoNovo.getCidades().add(cidadeSelecionada);
+				cidadeDao.create(cidadeSelecionada);
+			} else {
+				Estado estadoAntigo = estadoDao.findEstadoGetCidades(cidadeSelecionada.getEstado().getId());
+				estadoAntigo.getCidades().remove(cidadeSelecionada);
+				cidadeSelecionada.setEstado(estadoNovo);
+				estadoNovo.getCidades().add(cidadeSelecionada);
+				cidadeDao.update(cidadeSelecionada);
+			}
+			return;
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			this.prepararNovaCidade();
+			this.criarEstadosListagem();
+		}
 	}
 
 	public List<Cidade> getcidadesCadastradas() {
@@ -59,7 +74,7 @@ public class CidadeController implements Serializable {
 	public void setCidadeSelecionada(Cidade cidade) {
 		this.cidadeSelecionada = cidade;
 	}
-	
+
 	public long getPaisSelecionado() {
 		return paisSelecionado;
 	}
@@ -69,11 +84,13 @@ public class CidadeController implements Serializable {
 	}
 
 	public List<SelectItem> getListaPais() {
-		if(this.listaPais == null){
+		if (this.listaPais == null) {
 			this.listaPais = new ArrayList<SelectItem>();
-			for(Pais pais : this.paisDao.findAll()) {
-				this.listaPais.add(new SelectItem(pais.getId(), pais.getNome()));	
+			for (Pais pais : this.paisDao.findAll()) {
+				this.listaPais
+						.add(new SelectItem(pais.getId(), pais.getNome()));
 			}
+			this.criarEstadosListagem();
 		}
 		return listaPais;
 	}
@@ -89,38 +106,34 @@ public class CidadeController implements Serializable {
 	public List<Estado> getEstadosByPais() {
 		return estadoDao.findAllByPais(new Long(this.paisSelecionado));
 	}
-	
+
 	public List<SelectItem> getListaEsdados() {
 		return listaEsdados;
 	}
 
 	public void setListaEsdados(List<SelectItem> listaEsdados) {
 		this.listaEsdados = listaEsdados;
-	} 
-
-	public void valueChangePais(ValueChangeEvent e){		
-		criarCidadesListagem();		
 	}
 
-	private void criarCidadesListagem() {
+	public void valueChangePais(AjaxBehaviorEvent e) {
+		criarEstadosListagem();
+	}
+	
+	private void criarEstadosListagem() {
 		this.listaEsdados.clear();
-		for(Estado es:  this.getEstadosByPais()){
-			this.listaEsdados.add(new SelectItem(es.getId(), es.getNome()));			
+		if(this.paisSelecionado == 0l) {
+			this.paisSelecionado = (Long) this.listaPais.get(0).getValue();
 		}
-	}	
-		
+		for (Estado es : this.getEstadosByPais()) {
+			this.listaEsdados.add(new SelectItem(es.getId(), es.getNome()));
+		}
+	}
+
 	public void prepararAlterarCidade(Cidade cidade) {
 		this.setCidadeSelecionada(cidade);
 		this.setPaisSelecionado(cidade.getEstado().getPais().getId());
-		this.criarCidadesListagem();
+		this.criarEstadosListagem();
 		this.setEstadoSelecionado(cidade.getEstado().getId());
-		//this.setPaisSelecionado(cidade.getEstado().getPais());
-		//this.setListaEsdadosFiltrados(this.getEstadosByPais());
-		//this.setEstadoSelecionado(cidade.getEstado());		
-		//System.out.println(cidade);
-		//System.out.println(cidade.getEstado());
-		//System.out.println(cidade.getEstado().getPais());
-		//System.out.println(this.paisSelecionado);
 	}
-	
+
 }

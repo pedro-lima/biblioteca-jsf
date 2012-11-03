@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -14,31 +15,21 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(
-			name="Estado.findAll",
-			query="SELECT o FROM Estado o"),
-	@NamedQuery(
-			name="Estado.count",
-			query="SELECT COUNT(o) FROM Estado o"),
-	@NamedQuery(
-			name="Estado.findById",
-			query="SELECT o FROM Estado o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Estado.Cidade.count",
-			query="SELECT COUNT(o.cidades) FROM Estado o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Estado.Cidade.findAll",
-			query="SELECT o.cidades FROM Estado o WHERE o.id=:id"),
-})
-public class Estado implements Serializable{
+		@NamedQuery(name = "Estado.findAll", query = "SELECT o FROM Estado o"),
+		@NamedQuery(name = "Estado.count", query = "SELECT COUNT(o) FROM Estado o"),
+		@NamedQuery(name = "Estado.findById", query = "SELECT o FROM Estado o WHERE o.id=:id"),
+		@NamedQuery(name = "Estado.Cidade.count", query = "SELECT COUNT(o.cidades) FROM Estado o WHERE o.id=:id"),
+		@NamedQuery(name = "Estado.Cidade.findAll", query = "SELECT o.cidades FROM Estado o WHERE o.id=:id"),
+		@NamedQuery(name = "Estado.Join.Cidade", query = "SELECT o from Estado o LEFT JOIN FETCH o.cidades WHERE o.id=:id") })
+public class Estado implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private Long id;
 	private String nome;
 	private String sigla;
-	@OneToMany(mappedBy="estado",cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE,CascadeType.DETACH})
+	@OneToMany(mappedBy = "estado", cascade = { CascadeType.PERSIST,
+			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH }, fetch = FetchType.EAGER)
 	private List<Cidade> cidades = new ArrayList<Cidade>();
 	@ManyToOne
 	private Pais pais;
@@ -47,8 +38,7 @@ public class Estado implements Serializable{
 		super();
 	}
 
-	public Estado(String nome, String sigla, List<Cidade> cidades,
-			Pais pais) {
+	public Estado(String nome, String sigla, List<Cidade> cidades, Pais pais) {
 		super();
 		this.nome = nome;
 		this.sigla = sigla;

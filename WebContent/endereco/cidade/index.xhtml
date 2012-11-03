@@ -11,10 +11,8 @@
 		<ui:param name="pageTitle" value="Listar Cidades"></ui:param>
 		<ui:define name="content">
 			<h:form id="form">
-
 				<p:panel id="panel" header="Registro" toggleable="true">
 					<p:focus context="panel" />
-					<h:outputText value="#{cidadeBean.cidadeSelecionada}"></h:outputText>
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputText value="Nome:"></h:outputText>
 						<h:panelGroup>
@@ -24,33 +22,29 @@
 							<p:message for="cidade-name" />
 						</h:panelGroup>
 						<h:outputText value="Pais:"></h:outputText>
-						<p:selectOneMenu id="city" value="#{cidadeBean.paisSelecionado}">							
+						<p:selectOneMenu id="city" value="#{cidadeBean.paisSelecionado}">
 							<f:selectItems value="#{cidadeBean.listaPais}" />
 							<p:ajax update="listaEsdadosFiltrados"
 								listener="#{cidadeBean.valueChangePais}" event="change" />
 						</p:selectOneMenu>
 						<h:outputText value="Estado:"></h:outputText>
 						<p:selectOneMenu id="listaEsdadosFiltrados"
-							value="#{cidadeBean.estadoSelecionado}">							
+							value="#{cidadeBean.estadoSelecionado}">
 							<f:selectItems value="#{cidadeBean.listaEsdados}" />
 						</p:selectOneMenu>
-						<p:commandButton actionListener="#{cidadeBean.prepararNovaCidade}"
-							update=":form:panel" ajax="false" value="Salvar"></p:commandButton>
+						<p:commandButton actionListener="#{cidadeBean.salvarCidade}"
+							update=":grid:listagem" ajax="false" value="Salvar"></p:commandButton>
 						<p:commandButton actionListener="#{cidadeBean.prepararNovaCidade}"
 							update=":form:panel" ajax="false" value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
-
 				</p:panel>
-
 			</h:form>
+			<br />
+			<br />
 			<h:form id="grid">
-
-				<br />
-				<br />
-
-				<p:dataTable var="cidade" value="#{cidadeBean.cidadesCadastradas}"
-					paginator="true" rows="10"
+				<p:dataTable id="listagem" var="cidade"
+					value="#{cidadeBean.cidadesCadastradas}" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
 
