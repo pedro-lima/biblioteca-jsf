@@ -19,6 +19,13 @@ public class PaisPersistence extends AbstractPersistence<Pais>{
 				getSingleResult();
 	}
 	
+	public Pais findPaisGetEstados(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id", id));
+		return (Pais) this.getNamedQuery("Pais.Join.Estado", parans).getSingleResult();
+	}
+
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Pais> findAll() {		

@@ -25,7 +25,7 @@ public class CidadeController implements Serializable {
 	@EJB
 	private PaisPersistence paisDao;
 	private static final long serialVersionUID = 1L;
-	public static final String indexURL = "/endereco/cidade/index.xhtml";
+	public static final String indexURL = "/biblioteca-jsf/endereco/cidade/index.xhtml";
 	private Cidade cidadeSelecionada = new Cidade();
 	private long paisSelecionado;
 	private long estadoSelecionado;

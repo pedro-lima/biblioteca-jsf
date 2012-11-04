@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/template/masterTemplate.xhtml">
+	<ui:composition template="/template/masterTemplate.xhtml">
+		<ui:param name="pageTitle" value="Gerenciar Autores"></ui:param>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:panel id="panel" header="Registro" toggleable="true">
+					<p:focus context="panel" />
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Nome:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="autor-name" label="nome" size="40"
+								required="true" requiredMessage="Por favor, insira o nome."
+								value="#{autorBean.autorSelecionado.nome}">
+							</p:inputText>
+							<p:message for="autor-name" />
+						</h:panelGroup>
+						<p:commandButton actionListener="#{autorBean.salvarAutor}"
+							update=":grid:listagem" ajax="false" value="Salvar"></p:commandButton>
+						<p:commandButton actionListener="#{autorBean.prepararNovoAutor}"
+							update=":form:panel" ajax="false" value="Limpar"></p:commandButton>
+					</h:panelGrid>
+					<br style="clear: both;" />
+				</p:panel>
+			</h:form>
+			<br />
+			<br />
+			<h:form id="grid">
+				<p:dataTable id="listagem" var="autor"
+					value="#{autorBean.autoresCadastrados}" paginator="true" rows="10" emptyMessage="Não existem autores cadastrados."
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">					
+					<p:column headerText="Autor">
+						<h:outputText value="#{autor.nome}" />
+					</p:column>
+					<p:column style="width:10%;text-align: center;" headerText="Ação">
+						<p:commandButton id="selectButton" update=":form:panel"
+							ajax="false"
+							actionListener="#{autorBean.prepararAlterartAutor(autor)}"
+							icon="ui-icon-pencil" title="View">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</ui:composition>
+</html>
