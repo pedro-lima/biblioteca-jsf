@@ -14,7 +14,7 @@ public class AssuntoController implements Serializable {
 	@EJB
 	private AssuntoPersistence assuntoDao;
 	private static final long serialVersionUID = 1L;
-	private Assunto assuntoSelecionado = new Assunto();	
+	private Assunto assuntoSelecionado = new Assunto();
 
 	public AssuntoController() {
 		super();
@@ -26,12 +26,11 @@ public class AssuntoController implements Serializable {
 
 	public void salvarAssunto() {
 		try {
-			if (this.assuntoSelecionado.getId() == null) {				
+			if (this.assuntoSelecionado.getId() == null) {
 				this.assuntoDao.create(this.assuntoSelecionado);
 			} else {
-				this.assuntoDao.update(this.assuntoSelecionado);				
+				this.assuntoDao.update(this.assuntoSelecionado);
 			}
-			return;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		} finally {
@@ -51,7 +50,7 @@ public class AssuntoController implements Serializable {
 		this.assuntoSelecionado = assuntoSelecionado;
 	}
 
-	public void prepararAlterartAssunto(Assunto assunto) {		
+	public void prepararAlterartAssunto(Assunto assunto) {
 		this.setAssuntoSelecionado(assunto);
 	}
 

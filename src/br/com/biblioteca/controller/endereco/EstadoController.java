@@ -47,7 +47,6 @@ public class EstadoController implements Serializable {
 				paisNovo.getEstados().add(this.estadoSelecionado);
 				this.estadoDao.update(this.estadoSelecionado);				
 			}
-			return;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		} finally {

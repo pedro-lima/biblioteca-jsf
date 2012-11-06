@@ -27,9 +27,9 @@
 							<f:selectItems value="#{estadoBean.listaPais}" />
 						</p:selectOneMenu>
 						<p:commandButton actionListener="#{estadoBean.salvarEstado}"
-							update=":grid:listagem" ajax="false" value="Salvar"></p:commandButton>
+							update=":grid:listagem" value="Salvar"></p:commandButton>
 						<p:commandButton actionListener="#{estadoBean.prepararNovoEstado}"
-							update=":form:panel" ajax="false" value="Limpar"></p:commandButton>
+							update=":form:panel" value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
 				</p:panel>
@@ -38,7 +38,8 @@
 			<br />
 			<h:form id="grid">
 				<p:dataTable id="listagem" var="estado"
-					value="#{estadoBean.estadosCadastrados}" paginator="true" rows="10" emptyMessage="Não existem estados cadastrados."
+					value="#{estadoBean.estadosCadastrados}" paginator="true" rows="10"
+					emptyMessage="Não existem estados cadastrados."
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
 					<p:column headerText="Estado" style="width:45%">
@@ -49,7 +50,6 @@
 					</p:column>
 					<p:column style="width:10%;text-align: center;" headerText="Ação">
 						<p:commandButton id="selectButton" update=":form:panel"
-							ajax="false"
 							actionListener="#{estadoBean.prepararAlterarEstado(estado)}"
 							icon="ui-icon-pencil" title="View">
 						</p:commandButton>

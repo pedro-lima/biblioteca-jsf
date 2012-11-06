@@ -23,9 +23,10 @@
 							<p:message for="editora-name" />
 						</h:panelGroup>
 						<p:commandButton actionListener="#{editoraBean.salvarEditora}"
-							update=":grid:listagem" ajax="false" value="Salvar"></p:commandButton>
-						<p:commandButton actionListener="#{editoraBean.prepararNovaEditora}"
-							update=":form:panel" ajax="false" value="Limpar"></p:commandButton>
+							update=":grid:listagem" value="Salvar"></p:commandButton>
+						<p:commandButton
+							actionListener="#{editoraBean.prepararNovaEditora}"
+							update=":form:panel" value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
 				</p:panel>
@@ -34,15 +35,15 @@
 			<br />
 			<h:form id="grid">
 				<p:dataTable id="listagem" var="editora"
-					value="#{editoraBean.editorasCadastradas}" paginator="true" rows="10" emptyMessage="Não existem editoras cadastradas."
+					value="#{editoraBean.editorasCadastradas}" paginator="true"
+					rows="10" emptyMessage="Não existem editoras cadastradas."
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">					
+					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
 					<p:column headerText="Editora">
 						<h:outputText value="#{editora.nome}" />
 					</p:column>
 					<p:column style="width:10%;text-align: center;" headerText="Ação">
 						<p:commandButton id="selectButton" update=":form:panel"
-							ajax="false"
 							actionListener="#{editoraBean.prepararAlterarEditora(editora)}"
 							icon="ui-icon-pencil" title="View">
 						</p:commandButton>

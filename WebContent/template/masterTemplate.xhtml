@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<link
 		href="#{facesContext.externalContext.requestContextPath}/resources/css/screen.css"
@@ -41,7 +42,14 @@
 				<!-- <ui:include src="content.xhtml"/> -->
 				<!-- </div> -->
 			</ui:insert>
-
+			<p:ajaxStatus style="width:16px;height:16px;position:fixed;top:85%;" id="ajaxStatusPanel">
+				<f:facet name="start">
+					<h:graphicImage library="images" name="shared/load.gif" />
+				</f:facet>
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
 			<div class="clear">&nbsp;</div>
 		</div>
 		<!--  end content -->

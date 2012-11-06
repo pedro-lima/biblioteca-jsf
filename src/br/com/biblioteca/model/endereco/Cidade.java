@@ -14,22 +14,12 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(
-			name="Cidade.findAll",
-			query="SELECT o FROM Cidade o"),
-	@NamedQuery(
-			name="Cidade.count",
-			query="SELECT COUNT(o) FROM Cidade o"),
-	@NamedQuery(
-			name="Cidade.findById",
-			query="SELECT o FROM Cidade o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Cidade.Endereco.count",
-			query="SELECT COUNT(o.enderecos) FROM Cidade o WHERE o.id=:id"),
-	@NamedQuery(
-			name="Cidade.Endereco.findAll",
-			query="SELECT o.enderecos FROM Cidade o WHERE o.id=:id"),
-})
+		@NamedQuery(name = "Cidade.findAll", query = "SELECT o FROM Cidade o"),
+		@NamedQuery(name = "Cidade.count", query = "SELECT COUNT(o) FROM Cidade o"),
+		@NamedQuery(name = "Cidade.findById", query = "SELECT o FROM Cidade o WHERE o.id=:id"),
+		@NamedQuery(name = "Cidade.Endereco.count", query = "SELECT COUNT(o.enderecos) FROM Cidade o WHERE o.id=:id"),
+		@NamedQuery(name = "Cidade.Endereco.findAll", query = "SELECT o.enderecos FROM Cidade o WHERE o.id=:id"),
+		@NamedQuery(name = "Cidade.Join.Enderecos", query = "SELECT o from Cidade o LEFT JOIN FETCH o.enderecos WHERE o.id=:id") })
 public class Cidade implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -38,9 +28,9 @@ public class Cidade implements Serializable {
 	private String nome;
 	@ManyToOne
 	private Estado estado;
-	@OneToMany(mappedBy="cidade",cascade={CascadeType.PERSIST,CascadeType.REFRESH,
-			CascadeType.MERGE,CascadeType.DETACH})
-	private List<Endereco> enderecos= new ArrayList<Endereco>();
+	@OneToMany(mappedBy = "cidade", cascade = { CascadeType.PERSIST,
+			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
+	private List<Endereco> enderecos = new ArrayList<Endereco>();
 
 	public Cidade() {
 		super();

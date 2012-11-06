@@ -54,7 +54,6 @@ public class CidadeController implements Serializable {
 				estadoNovo.getCidades().add(cidadeSelecionada);
 				cidadeDao.update(cidadeSelecionada);
 			}
-			return;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		} finally {

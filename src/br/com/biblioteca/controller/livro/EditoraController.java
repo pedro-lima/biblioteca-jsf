@@ -31,7 +31,6 @@ public class EditoraController implements Serializable {
 			} else {
 				this.editoraDao.update(this.editoraSelecionada);				
 			}
-			return;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		} finally {

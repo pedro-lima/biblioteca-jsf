@@ -30,7 +30,7 @@ public abstract class Pessoa implements Serializable {
 	private String telefone;
 	@OneToOne(cascade = { CascadeType.PERSIST,
 			CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
-	private Endereco endereco;
+	private Endereco endereco = new Endereco();
 	
 	public Pessoa() {
 		super();

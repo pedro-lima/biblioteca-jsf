@@ -23,9 +23,10 @@
 							<p:message for="assunto-name" />
 						</h:panelGroup>
 						<p:commandButton actionListener="#{assuntoBean.salvarAssunto}"
-							update=":grid:listagem" ajax="false" value="Salvar"></p:commandButton>
-						<p:commandButton actionListener="#{assuntoBean.prepararNovoAssunto}"
-							update=":form:panel" ajax="false" value="Limpar"></p:commandButton>
+							update=":grid:listagem" value="Salvar"></p:commandButton>
+						<p:commandButton
+							actionListener="#{assuntoBean.prepararNovoAssunto}"
+							update=":form:panel" value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
 				</p:panel>
@@ -34,15 +35,15 @@
 			<br />
 			<h:form id="grid">
 				<p:dataTable id="listagem" var="assunto"
-					value="#{assuntoBean.assuntosCadastrados}" paginator="true" rows="10" emptyMessage="Não existem assuntos cadastrados."
+					value="#{assuntoBean.assuntosCadastrados}" paginator="true"
+					rows="10" emptyMessage="Não existem assuntos cadastrados."
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">					
+					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
 					<p:column headerText="Assunto">
 						<h:outputText value="#{assunto.nome}" />
 					</p:column>
 					<p:column style="width:10%;text-align: center;" headerText="Ação">
 						<p:commandButton id="selectButton" update=":form:panel"
-							ajax="false"
 							actionListener="#{assuntoBean.prepararAlterartAssunto(assunto)}"
 							icon="ui-icon-pencil" title="View">
 						</p:commandButton>

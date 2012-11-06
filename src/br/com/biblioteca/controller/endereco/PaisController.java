@@ -32,7 +32,6 @@ public class PaisController implements Serializable {
 			} else {
 				this.paisDao.update(this.paisSelecionado);				
 			}
-			return;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		} finally {

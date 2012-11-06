@@ -17,7 +17,12 @@ import br.com.biblioteca.model.reserva.Reserva;
 		@NamedQuery(name = "Locador.count", query = "SELECT COUNT(o) FROM Locador o"),
 		@NamedQuery(name = "Locador.findById", query = "SELECT o FROM Locador o WHERE o.id=:id"),
 		@NamedQuery(name = "Locador.Emprestimo.count", query = "SELECT COUNT(o.emprestimos) FROM Locador o WHERE o.id=:id"),
-		@NamedQuery(name = "Locador.Emprestimo.findAll", query = "SELECT o.emprestimos FROM Locador o WHERE o.id=:id")})
+		@NamedQuery(name = "Locador.Emprestimo.findAll", query = "SELECT o.emprestimos FROM Locador o WHERE o.id=:id"),
+		@NamedQuery(name = "Locador.Join.EnderecoCompleto", query = "SELECT o from Locador o "
+				+ "LEFT JOIN FETCH o.endereco en "
+				+ "LEFT JOIN FETCH en.cidade ci "
+				+ "LEFT JOIN FETCH ci.estado es "
+				+ "LEFT JOIN FETCH es.pais pa " + "WHERE o.id=:id") })
 public class Locador extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy = "locador", cascade = { CascadeType.PERSIST,

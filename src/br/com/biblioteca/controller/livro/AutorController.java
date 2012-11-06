@@ -31,7 +31,6 @@ public class AutorController implements Serializable {
 			} else {
 				this.autorDao.update(this.autorSelecionado);				
 			}
-			return;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		} finally {

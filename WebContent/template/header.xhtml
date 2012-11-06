@@ -10,6 +10,7 @@
 
 				<!-- start logo -->
 				<div id="logo">
+
 					<h:link>
 						<h:graphicImage library="images" name="shared/logo.png"
 							width="156" height="40" alt=""></h:graphicImage>
@@ -17,7 +18,9 @@
 				</div>
 				<!-- end logo -->
 				<!--  start top-search -->
-				<ui:include src="/template/search.xhtml"></ui:include>
+				<ui:remove>
+					<ui:include src="/template/search.xhtml"></ui:include>
+				</ui:remove>
 				<!--  end top-search -->
 				<div class="clear"></div>
 

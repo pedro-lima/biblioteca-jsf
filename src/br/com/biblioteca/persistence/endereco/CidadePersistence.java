@@ -15,6 +15,12 @@ public class CidadePersistence extends AbstractPersistence<Cidade> {
 	public Cidade find(long id) {
 		return this.manager.find(Cidade.class, id);
 	}
+	
+	public Cidade findCidadeGetEnderecos(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id", id));
+		return (Cidade) this.getNamedQuery("Cidade.Join.Enderecos", parans).getSingleResult();
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
