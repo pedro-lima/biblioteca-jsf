@@ -35,6 +35,7 @@
 			</div>
 			<!-- end page-heading -->
 			<ui:debug hotkey="z"></ui:debug>
+			<p:growl id="growl" showDetail="true" sticky="true" />
 			<ui:insert name="content">
     			Content area.  See comments below this line in the source.
     			<!--  include your content file or uncomment the include below and create content.xhtml in this directory -->
@@ -42,7 +43,8 @@
 				<!-- <ui:include src="content.xhtml"/> -->
 				<!-- </div> -->
 			</ui:insert>
-			<p:ajaxStatus style="width:16px;height:16px;position:fixed;top:85%;" id="ajaxStatusPanel">
+			<p:ajaxStatus style="width:16px;height:16px;position:fixed;top:85%;"
+				id="ajaxStatusPanel">
 				<f:facet name="start">
 					<h:graphicImage library="images" name="shared/load.gif" />
 				</f:facet>
