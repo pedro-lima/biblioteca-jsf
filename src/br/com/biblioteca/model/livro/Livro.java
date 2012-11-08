@@ -18,36 +18,37 @@ import org.hibernate.annotations.NamedQuery;
 		@NamedQuery(name = "Livro.count", query = "SELECT COUNT(o) FROM Livro o"),
 		@NamedQuery(name = "Livro.findById", query = "SELECT o FROM Livro o WHERE o.id=:id"),
 		@NamedQuery(name = "Livro.ItemLivro.count", query = "SELECT COUNT(o.itens) FROM Livro o WHERE o.id=:id"),
-		@NamedQuery(name = "Livro.ItemLivro.findAll", query = "SELECT o.itens FROM Livro o WHERE o.id=:id") })
+		@NamedQuery(name = "Livro.ItemLivro.findAll", query = "SELECT o.itens FROM Livro o WHERE o.id=:id"),
+		@NamedQuery(name = "Livro.Join.Editora.Autor.Assunto.ItemLivro", query = "SELECT o FROM Livro o "
+				+ "LEFT JOIN FETCH o.editora "
+				+ "LEFT JOIN FETCH o.autor "
+				+ "LEFT JOIN FETCH o.assunto "
+				+ "LEFT JOIN FETCH o.itens "
+				+ "WHERE o.id=:id") })
 public class Livro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private Long id;
 	@ManyToOne
-	private Editora editora;
+	private Editora editora = new Editora();
 	private String titulo;
-	private int ano;
-	private int edicao;
 	@ManyToOne
-	private Autor autor;
+	private Autor autor = new Autor();
 	@ManyToOne
-	private Assunto assunto;
+	private Assunto assunto = new Assunto();
 	@OneToMany(mappedBy = "livro", cascade = { CascadeType.PERSIST,
-			CascadeType.REFRESH, CascadeType.MERGE})
+			CascadeType.REFRESH, CascadeType.MERGE })
 	private List<ItemLivro> itens = new ArrayList<ItemLivro>();
 
 	public Livro() {
 		super();
 	}
-	
-	public Livro(Editora editora, String titulo, int ano, int edicao,
-			Autor autor, Assunto assunto) {
+
+	public Livro(Editora editora, String titulo, Autor autor, Assunto assunto) {
 		super();
 		this.editora = editora;
 		this.titulo = titulo;
-		this.ano = ano;
-		this.edicao = edicao;
 		this.autor = autor;
 		this.assunto = assunto;
 	}
@@ -76,22 +77,6 @@ public class Livro implements Serializable {
 		this.titulo = titulo;
 	}
 
-	public int getAno() {
-		return ano;
-	}
-
-	public void setAno(int ano) {
-		this.ano = ano;
-	}
-
-	public int getEdicao() {
-		return edicao;
-	}
-
-	public void setEdicao(int edicao) {
-		this.edicao = edicao;
-	}
-
 	public List<ItemLivro> getItens() {
 		return itens;
 	}
@@ -114,6 +99,15 @@ public class Livro implements Serializable {
 
 	public void setAssunto(Assunto assunto) {
 		this.assunto = assunto;
+	}
+
+	public boolean getExistemItensCadastrados() {
+		if (this.getId() != null) {
+			if (this.getItens().size() > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

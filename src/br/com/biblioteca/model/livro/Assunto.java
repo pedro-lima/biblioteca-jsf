@@ -17,7 +17,9 @@ import org.hibernate.annotations.NamedQuery;
 		@NamedQuery(name = "Assunto.count", query = "SELECT COUNT(o) FROM Assunto o"),
 		@NamedQuery(name = "Assunto.findById", query = "SELECT o FROM Assunto o WHERE o.id=:id"),
 		@NamedQuery(name = "Assunto.Livro.count", query = "SELECT COUNT(o.livros) FROM Assunto o WHERE o.id=:id"),
-		@NamedQuery(name = "Assunto.Livro.findAll", query = "SELECT o.livros FROM Assunto o WHERE o.id=:id") })
+		@NamedQuery(name = "Assunto.Livro.findAll", query = "SELECT o.livros FROM Assunto o WHERE o.id=:id"),
+		@NamedQuery(name = "Assunto.Join.Livro", query = "SELECT o FROM Assunto o "
+				+ "LEFT JOIN FETCH o.livros WHERE o.id=:id") })
 public class Assunto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

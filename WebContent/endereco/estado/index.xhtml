@@ -27,13 +27,13 @@
 							<f:selectItems value="#{estadoBean.listaPais}" />
 						</p:selectOneMenu>
 						<p:commandButton actionListener="#{estadoBean.salvarEstado}"
-							update=":grid:listagem" value="Salvar"></p:commandButton>
+							update=":grid:listagem" ajax="false" value="Salvar"></p:commandButton>
 						<p:commandButton actionListener="#{estadoBean.prepararNovoEstado}"
-							update=":form:panel" value="Limpar"></p:commandButton>
+							update=":form:panel" ajax="false" value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
 				</p:panel>
-			</h:form>
+			</h:form>			
 			<br />
 			<br />
 			<h:form id="grid">

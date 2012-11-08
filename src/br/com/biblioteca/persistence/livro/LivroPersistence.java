@@ -8,15 +8,23 @@ import br.com.biblioteca.persistence.AbstractPersistence;
 import br.com.biblioteca.persistence.QueryParam;
 
 @Stateless
-public class LivroPersistence extends AbstractPersistence<Livro>  {
+public class LivroPersistence extends AbstractPersistence<Livro> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Livro find(long id) {
 		List<QueryParam> parans = new ArrayList<QueryParam>();
-		parans.add(new QueryParam("id",id));
-		return (Livro) this.getNamedQuery("Livro.findById", parans).
-				getSingleResult();
+		parans.add(new QueryParam("id", id));
+		return (Livro) this.getNamedQuery("Livro.findById", parans)
+				.getSingleResult();
+	}
+
+	public Livro findLivroDados(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id", id));
+		return (Livro) this.getNamedQuery(
+				"Livro.Join.Editora.Autor.Assunto.ItemLivro", parans)
+				.getSingleResult();
 	}
 
 	@Override
@@ -33,8 +41,8 @@ public class LivroPersistence extends AbstractPersistence<Livro>  {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Livro> findRange(int maxResults, int firstResult) {
-		return this.getNamedQuery("Livro.findAll", maxResults, firstResult).
-				getResultList();
-	}	
+		return this.getNamedQuery("Livro.findAll", maxResults, firstResult)
+				.getResultList();
+	}
 
 }

@@ -13,9 +13,13 @@ public class EditoraPersistence extends AbstractPersistence<Editora> {
 
 	@Override
 	public Editora find(long id) {
+		return this.manager.find(Editora.class, id);
+	}
+	
+	public Editora findEditoraGetLivros(long id) {
 		List<QueryParam> parans = new ArrayList<QueryParam>();
 		parans.add(new QueryParam("id",id));
-		return (Editora) this.getNamedQuery("Editora.findById", parans).
+		return (Editora) this.getNamedQuery("Editora.Join.Livro", parans).
 				getSingleResult();
 	}
 

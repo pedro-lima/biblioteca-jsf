@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import br.com.biblioteca.model.endereco.Estado;
@@ -34,23 +36,35 @@ public class EstadoController implements Serializable {
 	}
 
 	public void salvarEstado() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
-			Pais paisNovo  = this.paisDao.findPaisGetEstados(this.paisSelecionado);
-			if (this.getEstadoSelecionado().getId() == null) {				
+			Pais paisNovo = this.paisDao
+					.findPaisGetEstados(this.paisSelecionado);
+			if (this.getEstadoSelecionado().getId() == null) {
 				this.estadoSelecionado.setPais(paisNovo);
 				paisNovo.getEstados().add(this.estadoSelecionado);
 				this.estadoDao.create(this.estadoSelecionado);
 			} else {
-				Pais paisAntigo  = this.paisDao.findPaisGetEstados(this.estadoSelecionado.getPais().getId());
+				Pais paisAntigo = this.paisDao
+						.findPaisGetEstados(this.estadoSelecionado.getPais()
+								.getId());
 				paisAntigo.getEstados().remove(this.getEstadoSelecionado());
 				this.estadoSelecionado.setPais(paisNovo);
 				paisNovo.getEstados().add(this.estadoSelecionado);
-				this.estadoDao.update(this.estadoSelecionado);				
+				this.estadoDao.update(this.estadoSelecionado);
 			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		} finally {
 			this.prepararNovoEstado();
+			FacesMessage msg = new FacesMessage("SUCESSO",
+					"Operação realizada com sucesso.");
+			msg.setSeverity(FacesMessage.SEVERITY_INFO);
+			fc.addMessage(null, msg);
+			fc.renderResponse();
+		} catch (Exception e) {
+			FacesMessage msg = new FacesMessage("ERRO:",
+					"Erro ao realizar a operação.");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			fc.addMessage(null, msg);
+			fc.renderResponse();
 		}
 	}
 
@@ -65,7 +79,7 @@ public class EstadoController implements Serializable {
 	public void setPaisSelecionado(long paisSelecionado) {
 		this.paisSelecionado = paisSelecionado;
 	}
-	
+
 	public Estado getEstadoSelecionado() {
 		return estadoSelecionado;
 	}

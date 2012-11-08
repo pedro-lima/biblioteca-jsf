@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
@@ -41,24 +43,36 @@ public class CidadeController implements Serializable {
 	}
 
 	public void salvarCidade() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
-			Estado estadoNovo = estadoDao.findEstadoGetCidades(this.estadoSelecionado);
-			if (this.getCidadeSelecionada().getId() == null) {				
+			Estado estadoNovo = estadoDao
+					.findEstadoGetCidades(this.estadoSelecionado);
+			if (this.getCidadeSelecionada().getId() == null) {
 				cidadeSelecionada.setEstado(estadoNovo);
 				estadoNovo.getCidades().add(cidadeSelecionada);
 				cidadeDao.create(cidadeSelecionada);
 			} else {
-				Estado estadoAntigo = estadoDao.findEstadoGetCidades(cidadeSelecionada.getEstado().getId());
+				Estado estadoAntigo = estadoDao
+						.findEstadoGetCidades(cidadeSelecionada.getEstado()
+								.getId());
 				estadoAntigo.getCidades().remove(cidadeSelecionada);
 				cidadeSelecionada.setEstado(estadoNovo);
 				estadoNovo.getCidades().add(cidadeSelecionada);
 				cidadeDao.update(cidadeSelecionada);
 			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		} finally {
 			this.prepararNovaCidade();
 			this.criarEstadosListagem();
+			FacesMessage msg = new FacesMessage("SUCESSO",
+					"Operação realizada com sucesso.");
+			msg.setSeverity(FacesMessage.SEVERITY_INFO);
+			fc.addMessage(null, msg);
+			fc.renderResponse();
+		} catch (Exception e) {
+			FacesMessage msg = new FacesMessage("ERRO:",
+					"Erro ao realizar a operação.");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			fc.addMessage(null, msg);
+			fc.renderResponse();
 		}
 	}
 
@@ -117,10 +131,10 @@ public class CidadeController implements Serializable {
 	public void valueChangePais(AjaxBehaviorEvent e) {
 		criarEstadosListagem();
 	}
-	
+
 	private void criarEstadosListagem() {
 		this.listaEsdados.clear();
-		if(this.paisSelecionado == 0l) {
+		if (this.paisSelecionado == 0l) {
 			this.paisSelecionado = (Long) this.listaPais.get(0).getValue();
 		}
 		for (Estado es : this.getEstadosByPais()) {

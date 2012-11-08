@@ -29,6 +29,9 @@ public class ItemLivro implements Serializable {
 	@GeneratedValue
 	private Long id;
 	private String codigo;
+	private int ano;
+	private int edicao;	
+	private String cutter;
 	@ManyToOne
 	private Livro livro = new Livro();
 	@ManyToMany
@@ -39,11 +42,23 @@ public class ItemLivro implements Serializable {
 	public ItemLivro() {
 		super();
 	}
-
-	public ItemLivro(String codigo, Livro livro) {
+	
+	public ItemLivro(String codigo, int ano, int edicao, String cutter,
+			Livro livro) {
 		super();
 		this.codigo = codigo;
+		this.ano = ano;
+		this.edicao = edicao;
+		this.cutter = cutter;
 		this.livro = livro;
+	}
+
+	public ItemLivro(String codigo, int ano, int edicao, String cutter) {
+		super();
+		this.codigo = codigo;
+		this.ano = ano;
+		this.edicao = edicao;
+		this.cutter = cutter;
 	}
 
 	public Long getId() {
@@ -60,6 +75,30 @@ public class ItemLivro implements Serializable {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
+	}
+
+	public int getAno() {
+		return ano;
+	}
+
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+
+	public int getEdicao() {
+		return edicao;
+	}
+
+	public void setEdicao(int edicao) {
+		this.edicao = edicao;
+	}
+
+	public String getCutter() {
+		return cutter;
+	}
+
+	public void setCutter(String cutter) {
+		this.cutter = cutter;
 	}
 
 	public Livro getLivro() {

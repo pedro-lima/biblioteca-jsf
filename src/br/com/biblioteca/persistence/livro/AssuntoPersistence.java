@@ -13,10 +13,14 @@ public class AssuntoPersistence extends AbstractPersistence<Assunto> {
 
 	@Override
 	public Assunto find(long id) {
+		return this.manager.find(Assunto.class, id);
+	}
+
+	public Assunto findAssuntoGetLivros(long id) {
 		List<QueryParam> parans = new ArrayList<QueryParam>();
-		parans.add(new QueryParam("id",id));
-		return (Assunto) this.getNamedQuery("Assunto.findById", parans).
-				getSingleResult();
+		parans.add(new QueryParam("id", id));
+		return (Assunto) this.getNamedQuery("Assunto.Join.Livro", parans)
+				.getSingleResult();
 	}
 
 	@Override
@@ -33,8 +37,8 @@ public class AssuntoPersistence extends AbstractPersistence<Assunto> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Assunto> findRange(int maxResults, int firstResult) {
-		return this.getNamedQuery("Assunto.findAll", maxResults, firstResult).
-				getResultList();
+		return this.getNamedQuery("Assunto.findAll", maxResults, firstResult)
+				.getResultList();
 	}
 
 }

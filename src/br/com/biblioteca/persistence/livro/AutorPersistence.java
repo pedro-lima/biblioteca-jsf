@@ -14,12 +14,16 @@ public class AutorPersistence extends AbstractPersistence<Autor> {
 
 	@Override
 	public Autor find(long id) {
-		List<QueryParam> parans = new ArrayList<QueryParam>();
-		parans.add(new QueryParam("id",id));
-		return (Autor) this.getNamedQuery("Autor.findById", parans).
-				getSingleResult();
+		return this.manager.find(Autor.class, id);
 	}
-	
+
+	public Autor findAutorGetLivros(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id", id));
+		return (Autor) this.getNamedQuery("Autor.Join.Livro", parans)
+				.getSingleResult();
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Autor> findAll() {
@@ -30,12 +34,12 @@ public class AutorPersistence extends AbstractPersistence<Autor> {
 	public long count() {
 		return (Long) this.getNamedQuery("Autor.count").getSingleResult();
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Autor> findRange(int maxResults, int firstResult) {
-		return this.getNamedQuery("Autor.findAll", maxResults, firstResult).
-				getResultList();
+		return this.getNamedQuery("Autor.findAll", maxResults, firstResult)
+				.getResultList();
 	}
 
 }

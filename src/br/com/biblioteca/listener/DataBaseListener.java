@@ -62,7 +62,7 @@ public class DataBaseListener implements ServletContextListener {
 	 */
 	public void contextInitialized(ServletContextEvent arg0) {
 		this.cadastrarRegioes();
-		//this.cadastrarLivros();
+		this.cadastrarLivros();
 		//this.cadastrarPessoa();
 		//this.cadastrarEmprestimo();
 	}
@@ -115,8 +115,7 @@ public class DataBaseListener implements ServletContextListener {
 		for (Assunto a : assuntos) {
 			assuntoDao.create(a);
 		}
-
-		Autor autor = new Autor("Machado de Assis");
+		
 		ArrayList<Editora> editoras = new ArrayList<Editora>();
 		editoras.add(new Editora("Editora 1"));
 		editoras.add(new Editora("Editora 2"));
@@ -131,7 +130,12 @@ public class DataBaseListener implements ServletContextListener {
 		for (Editora e : editoras) {
 			editoraDao.create(e);
 		}
-
+		
+		Autor autor = new Autor("Machado de Assis");
+		autorDao.create(autor);
+		autor = new Autor("Monteiro Lobato");
+		autorDao.create(autor);
+/*
 		String[] livros = new String[] { "Ressurreição", "A mão e a luva",
 				"Helena", "Iaiá Garcia", "Memórias Póstumas de Brás Cubas",
 				"Casa Velha", "Quincas Borba", "Dom Casmurro", "Esaú e Jacó",
@@ -140,7 +144,7 @@ public class DataBaseListener implements ServletContextListener {
 		this.popularLivro(autor, livros);
 		autorDao.create(autor);
 
-		autor = new Autor("Monteiro Lobato");
+		
 		livros = new String[] { "O Saci", "Fábulas",
 				"As aventuras de Hans Staden", "Peter Pan",
 				"Reinações de Narizinho", "Viagem ao céu",
@@ -154,9 +158,11 @@ public class DataBaseListener implements ServletContextListener {
 				"Os doze trabalhos de Hércules", "Histórias diversas" };
 		this.popularLivro(autor, livros);
 		autorDao.create(autor);
+		*/
 	}
 
 	private void popularLivro(Autor autor, String[] livros) {
+		/*
 		Livro livro = null;
 		for (String nome : livros) {
 			int numero = (int) (Math.random() * 10);
@@ -173,6 +179,7 @@ public class DataBaseListener implements ServletContextListener {
 				livro.getItens().add(item);
 			}
 		}
+		*/
 	}
 
 	private void cadastrarRegioes() {
