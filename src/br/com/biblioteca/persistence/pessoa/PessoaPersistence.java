@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
-
 import br.com.biblioteca.model.pessoa.Funcionario;
 import br.com.biblioteca.model.pessoa.Locador;
 import br.com.biblioteca.model.pessoa.Pessoa;
@@ -82,6 +81,13 @@ public class PessoaPersistence extends AbstractPersistence<Pessoa> {
 		parans.add(new QueryParam("id", id));
 		return (Funcionario) this.getNamedQuery(
 				"Funcionario.Join.EnderecoCompleto", parans).getSingleResult();
+	}
+
+	public Locador findLocadorGetEmprestimos(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id", id));
+		return (Locador) this.getNamedQuery(
+				"Locador.Join.Emprestimo", parans).getSingleResult();
 	}
 
 }

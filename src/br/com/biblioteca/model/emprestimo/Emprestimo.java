@@ -2,6 +2,7 @@ package br.com.biblioteca.model.emprestimo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -26,14 +27,14 @@ import br.com.biblioteca.model.pessoa.Locador;
 		@NamedQuery(name = "Emprestimo.Livro.count", query = "SELECT COUNT(o.livros) FROM Emprestimo o WHERE o.id=:id"),
 		@NamedQuery(name = "Emprestimo.Livro.findAll", query = "SELECT o.livros FROM Emprestimo o WHERE o.id=:id"),
 		@NamedQuery(name = "Emprestimo.findAll.Ativo", query = "SELECT o FROM Emprestimo o "
-				+ " WHERE o.locador.id=:id AND o.dataDevolucao IS NULL") })
+				+ " WHERE o.locador.id=:id AND o.dataDevolucao IS NULL"),
+		@NamedQuery(name = "Emprestimo.Join.Livro", query = "SELECT o from Emprestimo o LEFT JOIN FETCH o.livros WHERE o.id=:id") })
 public class Emprestimo implements Serializable {
-	@SuppressWarnings("unused")
-	private static final int diasLimite = 12;
+	public static final int diasLimite = 12;
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	@ManyToOne
 	private Locador locador;
 	@Temporal(TemporalType.DATE)
@@ -65,11 +66,11 @@ public class Emprestimo implements Serializable {
 						dias), livros);
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -124,11 +125,26 @@ public class Emprestimo implements Serializable {
 		GregorianCalendar gc = new GregorianCalendar();
 		gc.set(GregorianCalendar.DAY_OF_MONTH,
 				gc.get(GregorianCalendar.DAY_OF_MONTH) + dias);
-		//if (gc.DAY_OF_WEEK == Calendar.SUNDAY) {
-		//	gc.set(GregorianCalendar.DAY_OF_MONTH,
-		//			gc.get(GregorianCalendar.DAY_OF_MONTH) + 1);
-		//}
+		if (gc.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			gc.set(GregorianCalendar.DAY_OF_MONTH,
+					gc.get(GregorianCalendar.DAY_OF_MONTH) + 1);
+		}
 		return gc.getTime();
+	}
+
+	public static Date calcularDataOperacaoEmprestimo() {
+		return new Date(System.currentTimeMillis());
+	}
+
+	public String getSituacaoEmprestimo() {
+		if (this.dataDevolucao == null)
+			return "Aberto";
+		else
+			return "Finalizado";
+	}
+	
+	public boolean getDesabilitarFecharEmprestimo() {
+		return this.dataDevolucao != null;
 	}
 
 }

@@ -18,14 +18,15 @@
 								<h:panelGrid columns="2" cellpadding="10">
 									<h:outputText value="Titulo:"></h:outputText>
 									<h:panelGroup>
-										<h:inputText id="tilulo" required="true"
+										<h:inputText id="tilulo" required="true" size="28"
 											value="#{livroBean.livroSelecionado.titulo}"></h:inputText>
 										<p:message for="tilulo"></p:message>
 									</h:panelGroup>
 									<h:outputText value="Autore:"></h:outputText>
 									<h:panelGroup>
 										<p:selectOneMenu id="autores"
-											value="#{livroBean.autorSelecionado}">
+											value="#{livroBean.autorSelecionado}" style="width:200px"
+											panelStyle="width:190px;height:150px;overflow:scroll;">
 											<f:selectItems value="#{livroBean.listaAutores}"></f:selectItems>
 										</p:selectOneMenu>
 										<p:message for="autores"></p:message>
@@ -33,7 +34,8 @@
 									<h:outputText value="Assunto:"></h:outputText>
 									<h:panelGroup>
 										<p:selectOneMenu id="assuntos"
-											value="#{livroBean.assuntoSelecionado}">
+											value="#{livroBean.assuntoSelecionado}" style="width:200px"
+											panelStyle="width:190px;height:150px;overflow:scroll;">
 											<f:selectItems value="#{livroBean.listaAssuntos}"></f:selectItems>
 										</p:selectOneMenu>
 										<p:message for="assuntos"></p:message>
@@ -41,11 +43,13 @@
 									<h:outputText value="Editora:"></h:outputText>
 									<h:panelGroup>
 										<p:selectOneMenu id="editoras"
-											value="#{livroBean.editoraSelecionada}">
+											value="#{livroBean.editoraSelecionada}" style="width:200px"
+											panelStyle="width:190px;height:150px;overflow:scroll;">
 											<f:selectItems value="#{livroBean.listaEditoras}"></f:selectItems>
 										</p:selectOneMenu>
 										<p:message for="editoras"></p:message>
 									</h:panelGroup>
+									<br style="clear: both" />
 								</h:panelGrid>
 							</p:panel>
 							<br />
@@ -100,7 +104,8 @@
 							</p:panel>
 							<br />
 							<br />
-							<p:panel header="Itens Cadastrados" visible="#{livroBean.livroSelecionado.existemItensCadastrados}">
+							<p:panel header="Itens Cadastrados"
+								visible="#{livroBean.livroSelecionado.existemItensCadastrados}">
 								<p:dataTable var="li" emptyMessage="Sem itens cadastrados"
 									value="#{livroBean.livroSelecionado.itens}">
 									<p:column headerText="Codigo">
@@ -114,7 +119,7 @@
 									</p:column>
 									<p:column headerText="Cutter">
 										<h:outputText value="#{li.cutter}" />
-									</p:column>									
+									</p:column>
 								</p:dataTable>
 							</p:panel>
 							<br />

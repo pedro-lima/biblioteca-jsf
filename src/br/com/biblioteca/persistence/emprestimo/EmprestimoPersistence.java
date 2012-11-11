@@ -16,6 +16,13 @@ public class EmprestimoPersistence extends AbstractPersistence<Emprestimo> {
 	public Emprestimo find(long id) {
 		return this.manager.find(Emprestimo.class,id);
 	}
+	
+	public Emprestimo findEmprestimoGetLivros(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id",id));
+		return (Emprestimo) this.getNamedQuery("Emprestimo.Join.Livro",parans).
+				getResultList();
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")

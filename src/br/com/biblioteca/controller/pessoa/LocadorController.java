@@ -50,14 +50,12 @@ public class LocadorController implements Serializable {
 				this.locadorSelecionado.getEndereco().setCidade(cidadeNova);
 				cidadeNova.getEnderecos().add(
 						this.locadorSelecionado.getEndereco());
-				this.pessoaDao.update(this.locadorSelecionado);
+				this.pessoaDao.update(this.locadorSelecionado);				
 			}
+			this.prepararNovoLocador();
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
-		} finally {
-			this.prepararNovoLocador();
 		}
-		this.prepararNovoLocador();
 	}
 
 	public Locador getLocadorSelecionado() {
@@ -86,7 +84,7 @@ public class LocadorController implements Serializable {
 				estado.getId(), cidade.getId());
 
 	}
-	
+
 	private Locador locadorDetalhe;
 
 	public Locador getLocadorDetalhe() {
@@ -96,7 +94,7 @@ public class LocadorController implements Serializable {
 	public void setLocadorDetalhe(Locador locadorDetalhe) {
 		this.locadorDetalhe = locadorDetalhe;
 	}
-	
+
 	public void selecionarDetalhe(long id) {
 		Locador locador = pessoaDao.findLocadorEnderecoCompleto(id);
 		this.setLocadorDetalhe(locador);

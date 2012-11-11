@@ -22,7 +22,9 @@ import br.com.biblioteca.model.reserva.Reserva;
 				+ "LEFT JOIN FETCH o.endereco en "
 				+ "LEFT JOIN FETCH en.cidade ci "
 				+ "LEFT JOIN FETCH ci.estado es "
-				+ "LEFT JOIN FETCH es.pais pa " + "WHERE o.id=:id") })
+				+ "LEFT JOIN FETCH es.pais pa " + "WHERE o.id=:id"),
+		@NamedQuery(name = "Locador.Join.Emprestimo", query = "SELECT o FROM Locador o LEFT "
+				+ "JOIN FETCH o.emprestimos e WHERE o.id=:id"), })
 public class Locador extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	@OneToMany(mappedBy = "locador", cascade = { CascadeType.PERSIST,

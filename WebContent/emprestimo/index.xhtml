@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/template/masterTemplate.xhtml">
+	<ui:composition template="/template/masterTemplate.xhtml">
+		<ui:param name="pageTitle" value="Gerenciar Livros"></ui:param>
+		<ui:define name="content">
+			<h:form id="form" prependId="false">
+				<p:panel id="panel" header="Registro" toggleable="true">
+					<p:wizard widgetVar="wiz" nextLabel="Proximo" backLabel="Anterior">
+						<p:tab id="locador" title="Locadores">
+							<p:panel header="Locador Selecionado">
+								<p:selectOneMenu id="editoras"
+									value="#{emprestimoBean.locadorSelecionado}"
+									style="width:200px"
+									panelStyle="width:190px;height:150px;overflow:scroll;">
+									<f:selectItems value="#{emprestimoBean.locadores}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:panel>
+							<br />
+						</p:tab>
+						<p:tab id="itens" title="Livros">
+							<p:panel header="Livros Cadastrados">
+								<p:dataTable id="listagemLivrosCadastrados" var="item"
+									value="#{emprestimoBean.livrosCadastrados}" paginator="true"
+									rows="10" emptyMessage="Não existem livros cadastrados."
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
+									<p:column headerText="Titulo">
+										<h:outputText value="#{item.livro.titulo}" />
+									</p:column>
+									<p:column headerText="Autor">
+										<h:outputText value="#{item.livro.autor.nome}" />
+									</p:column>
+									<p:column headerText="Editora">
+										<h:outputText value="#{item.livro.editora.nome}" />
+									</p:column>
+									<p:column headerText="Assunto">
+										<h:outputText value="#{item.livro.assunto.nome}" />
+									</p:column>
+									<p:column style="width:10%;text-align: center;"
+										headerText="Ação">
+										<p:commandButton id="selectEdit" update=":form"
+											actionListener="#{emprestimoBean.adicionarLivroEmprestimo(item)}"
+											icon="ui-icon-pencil" ajax="false" title="View">
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+							<br />
+							<br />
+							<p:panel header="Livros Adicionados">
+								<p:dataTable id="listagemLivrosAdicionados" var="item"
+									value="#{emprestimoBean.livrosSelecionados}" paginator="true"
+									rows="10" emptyMessage="Não existem livros cadastrados."
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
+									<p:column headerText="Titulo">
+										<h:outputText value="#{item.livro.titulo}" />
+									</p:column>
+									<p:column headerText="Autor">
+										<h:outputText value="#{item.livro.autor.nome}" />
+									</p:column>
+									<p:column headerText="Editora">
+										<h:outputText value="#{item.livro.editora.nome}" />
+									</p:column>
+									<p:column headerText="Assunto">
+										<h:outputText value="#{item.livro.assunto.nome}" />
+									</p:column>
+									<p:column style="width:10%;text-align: center;"
+										headerText="Ação">
+										<p:commandButton id="selectEdit" update=":form"
+											actionListener="#{emprestimoBean.removerLivroEmprestimo(item)}"
+											icon="ui-icon-trash" ajax="false" title="View">
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+							<br />
+							<p:commandButton id="salvar" update=":form"
+								actionListener="#{emprestimoBean.salvarEmprestimo}"
+								value="Salvar" style="float:right" ajax="false" title="View">
+							</p:commandButton>
+						</p:tab>
+					</p:wizard>
+				</p:panel>
+			</h:form>
+			<br />
+			<br />
+			<h:form id="grid" prependId="false">
+				<p:dataTable id="listagemEmprestimos" var="em"
+					value="#{emprestimoBean.emprestimosCadastrados}" paginator="true"
+					rows="10" emptyMessage="Não existem emprestimos cadastrados."
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
+					<p:column headerText="Locador">
+						<h:outputText value="#{em.locador.nome}" />
+					</p:column>
+					<p:column headerText="Data Emprestimo">
+						<h:outputText value="#{em.dataEmprestimo}" />
+					</p:column>
+					<p:column headerText="Data Devolucao Esperada">
+						<h:outputText value="#{em.dataDevolucaoEsperada}" />
+					</p:column>
+					<p:column headerText="Data Devolucao">
+						<h:outputText value="#{em.dataDevolucao}" />
+					</p:column>
+					<p:column headerText="Status">
+						<h:outputText value="#{em.situacaoEmprestimo}" />
+					</p:column>
+					<p:column style="width:10%;text-align: center;" headerText="Finalizar">
+						<p:commandButton id="selectEdit" update=":form,:grid" disabled="#{em.desabilitarFecharEmprestimo}"
+							actionListener="#{emprestimoBean.finalizarEmprestimo(em.id)}"
+							icon="ui-icon-disk" ajax="false" title="View">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<h:form prependId="false">
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</ui:composition>
+</html>
