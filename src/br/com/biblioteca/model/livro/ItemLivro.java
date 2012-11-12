@@ -25,7 +25,7 @@ import br.com.biblioteca.model.reserva.Reserva;
 		@NamedQuery(name = "ItemLivro.Reserva.findAll", query = "SELECT o.reservas FROM ItemLivro o WHERE o.id=:id"),
 		@NamedQuery(name = "ItemLivro.Emprestimo.count", query = "SELECT COUNT(o.emprestimos) FROM ItemLivro o WHERE o.id=:id"),
 		@NamedQuery(name = "ItemLivro.Emprestimo.findAll", query = "SELECT o.emprestimos FROM ItemLivro o WHERE o.id=:id"),
-		@NamedQuery(name = "ItemLivro.Disponiveis", query = "SELECT o FROM ItemLivro o LEFT JOIN FETCH o.emprestimos e "
+		@NamedQuery(name = "ItemLivro.Disponiveis", query = "SELECT DISTINCT o FROM ItemLivro o LEFT JOIN FETCH o.emprestimos e "
 				+ "WHERE (o.emprestimos IS EMPTY) OR (o.emprestimos IS NOT EMPTY AND e.dataDevolucao IS NOT NULL)"),
 		@NamedQuery(name = "ItemLivro.Join.Emprestimo", query = "SELECT o from ItemLivro o LEFT JOIN FETCH o.emprestimos WHERE o.id=:id") })
 public class ItemLivro implements Serializable {

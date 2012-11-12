@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import br.com.biblioteca.model.livro.Assunto;
 import br.com.biblioteca.persistence.livro.AssuntoPersistence;
@@ -25,16 +27,24 @@ public class AssuntoController implements Serializable {
 	}
 
 	public void salvarAssunto() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			if (this.assuntoSelecionado.getId() == null) {
 				this.assuntoDao.create(this.assuntoSelecionado);
 			} else {
 				this.assuntoDao.update(this.assuntoSelecionado);
 			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		} finally {
 			this.prepararNovoAssunto();
+			FacesMessage msg = new FacesMessage("SUCESSO",
+					"Operação realizada com sucesso.");
+			msg.setSeverity(FacesMessage.SEVERITY_INFO);
+			fc.addMessage(null, msg);
+		} catch (Exception e) {
+			FacesMessage msg = new FacesMessage("ERRO:",
+					"Erro ao realizar a operação.");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			fc.addMessage(null, msg);
+			fc.renderResponse();
 		}
 	}
 

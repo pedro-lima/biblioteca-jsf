@@ -20,20 +20,21 @@
 								required="true" requiredMessage="Por favor, insira o nome."
 								value="#{estadoBean.estadoSelecionado.nome}">
 							</p:inputText>
-							<p:message for="estado-name" />
 						</h:panelGroup>
 						<h:outputText value="Pais:"></h:outputText>
-						<p:selectOneMenu id="city" value="#{estadoBean.paisSelecionado}">
+						<p:selectOneMenu id="city" value="#{estadoBean.paisSelecionado}"
+							required="true">
 							<f:selectItems value="#{estadoBean.listaPais}" />
 						</p:selectOneMenu>
 						<p:commandButton actionListener="#{estadoBean.salvarEstado}"
-							update=":grid:listagem" ajax="false" value="Salvar"></p:commandButton>
-						<p:commandButton actionListener="#{estadoBean.prepararNovoEstado}"
-							update=":form:panel" ajax="false" value="Limpar"></p:commandButton>
+							update=":grid:listagem,:growl,:form" value="Salvar"></p:commandButton>
+						<p:commandButton
+							onclick="document.getElementById('limparButton').click()"
+							value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
 				</p:panel>
-			</h:form>			
+			</h:form>
 			<br />
 			<br />
 			<h:form id="grid">
@@ -55,6 +56,11 @@
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
+			</h:form>
+			<h:form prependId="false">
+				<p:commandButton id="limparButton" style="display:none"
+					actionListener="#{estadoBean.prepararNovoEstado}"
+					update=":form:panel,:growl" value="Limpar"></p:commandButton>
 			</h:form>
 		</ui:define>
 	</ui:composition>

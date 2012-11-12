@@ -23,10 +23,10 @@
 							<p:message for="editora-name" />
 						</h:panelGroup>
 						<p:commandButton actionListener="#{editoraBean.salvarEditora}"
-							update=":grid:listagem" value="Salvar"></p:commandButton>
+							update=":grid:listagem,:growl,:form" value="Salvar"></p:commandButton>
 						<p:commandButton
-							actionListener="#{editoraBean.prepararNovaEditora}"
-							update=":form:panel" value="Limpar"></p:commandButton>
+							onclick="document.getElementById('limparButton').click()"
+							value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
 				</p:panel>
@@ -49,6 +49,11 @@
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
+			</h:form>
+			<h:form prependId="false">
+				<p:commandButton id="limparButton"
+					actionListener="#{editoraBean.prepararNovaEditora}"
+					style="display:none" update=":form:panel,:growl" value="Limpar"></p:commandButton>
 			</h:form>
 		</ui:define>
 	</ui:composition>

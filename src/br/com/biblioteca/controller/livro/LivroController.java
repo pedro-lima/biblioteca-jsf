@@ -28,6 +28,7 @@ public class LivroController implements Serializable {
 	@EJB
 	private LivroPersistence livroDao;
 	private Livro livroSelecionado = new Livro();
+	private Livro livroDetalhe = new Livro();
 	private long editoraSelecionada;
 	private long assuntoSelecionado;
 	private long autorSelecionado;
@@ -47,6 +48,14 @@ public class LivroController implements Serializable {
 
 	public void setLivroSelecionado(Livro livroSelecionado) {
 		this.livroSelecionado = livroSelecionado;
+	}
+	
+	public Livro getLivroDetalhe() {
+		return livroDetalhe;
+	}
+
+	public void setLivroDetalhe(Livro livroDetalhe) {
+		this.livroDetalhe = livroDetalhe;
 	}
 
 	public long getEditoraSelecionada() {
@@ -246,6 +255,11 @@ public class LivroController implements Serializable {
 		this.setEditoraSelecionada(livro.getEditora().getId());
 		this.setAssuntoSelecionado(livro.getAssunto().getId());
 		this.setAssuntoSelecionado(livro.getAutor().getId());
+	}
+	
+	public void prepararLivroDetalhe(long id) {
+		Livro livro = this.livroDao.findLivroDados(id);
+		this.setLivroDetalhe(livro);		
 	}
 
 }

@@ -12,7 +12,8 @@
 		<ui:define name="content">
 			<h:form id="form" prependId="false">
 				<p:panel id="panel" header="Registro" toggleable="true">
-					<p:wizard widgetVar="wiz" nextLabel="Proximo" backLabel="Anterior">
+					<p:wizard widgetVar="wiz" nextLabel="Proximo" backLabel="Anterior"
+						update="">
 						<p:tab id="livro" title="Livro">
 							<p:panel header="Livro Detalhe">
 								<h:panelGrid columns="2" cellpadding="10">
@@ -58,20 +59,29 @@
 							<p:panel header="Item Novo">
 								<h:panelGrid columns="4" cellpadding="10">
 									<h:outputText value="Codigo"></h:outputText>
-									<h:inputText id="codigo" label="codigo"
-										value="#{livroBean.itemEditado.codigo}" required="true"></h:inputText>
-
+									<h:panelGroup>
+										<h:inputText id="codigo" label="codigo"
+											value="#{livroBean.itemEditado.codigo}" required="true"></h:inputText>
+										<p:message for="codigo"></p:message>
+									</h:panelGroup>
 									<h:outputText value="Ano"></h:outputText>
-									<h:inputText id="ano" label="ano"
-										value="#{livroBean.itemEditado.ano}" required="true"></h:inputText>
-
+									<h:panelGroup>
+										<h:inputText id="ano" label="ano"
+											value="#{livroBean.itemEditado.ano}" required="true"></h:inputText>
+										<p:message for="ano"></p:message>
+									</h:panelGroup>
 									<h:outputText value="Edição"></h:outputText>
-									<h:inputText id="edicao" label="edição"
-										value="#{livroBean.itemEditado.edicao}" required="true"></h:inputText>
-
+									<h:panelGroup>
+										<h:inputText id="edicao" label="edição"
+											value="#{livroBean.itemEditado.edicao}" required="true"></h:inputText>
+										<p:message for="edicao"></p:message>
+									</h:panelGroup>
 									<h:outputText value="Cutter"></h:outputText>
-									<h:inputText id="cutter" label="cutter"
-										value="#{livroBean.itemEditado.cutter}" required="true"></h:inputText>
+									<h:panelGroup>
+										<h:inputText id="cutter" label="cutter"
+											value="#{livroBean.itemEditado.cutter}" required="true"></h:inputText>
+										<p:message for="cutter"></p:message>
+									</h:panelGroup>
 									<p:commandButton value="Adicionar"
 										actionListener="#{livroBean.adicionarNovoItemLivro}"
 										update=":form:panel,:growl"></p:commandButton>
@@ -124,9 +134,14 @@
 							</p:panel>
 							<br />
 							<br />
-							<p:commandButton id="btnSalvarAjax" value="Salvar" ajax="false"
-								style="float:right"
-								onclick="javascript:document.getElementById('btnSalvar').click()" />
+							<h:panelGrid columns="2" style="float:right">
+								<p:commandButton id="btnSalvarAjax" value="Limpar"
+									style="margin-right:20px"
+									onclick="javascript:document.getElementById('btnLimpar').click()" />
+								<p:commandButton id="btnLimparAjax" value="Salvar"
+									style="float:right"
+									onclick="javascript:document.getElementById('btnSalvar').click()" />
+							</h:panelGrid>
 						</p:tab>
 					</p:wizard>
 				</p:panel>
@@ -156,14 +171,59 @@
 							actionListener="#{livroBean.prepararEditarLivro(livro.id)}"
 							icon="ui-icon-pencil" title="View">
 						</p:commandButton>
+						<p:commandButton id="selectButtonView" update=":display"
+							oncomplete="livroDialog.show()" icon="ui-icon-search"
+							actionListener="#{livroBean.prepararLivroDetalhe(livro.id)}"
+							title="View"></p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</h:form>
 			<h:form prependId="false">
 				<p:commandButton id="btnSalvar" style="display:none" value="Salvar"
-					ajax="false" actionListener="#{livroBean.cadastrarLivro}"
+					actionListener="#{livroBean.cadastrarLivro}"
+					update=":form,:growl,:grid"
+					oncomplete="wiz.loadStep(wiz.cfg.steps[0], true);" />
+				<p:commandButton id="btnLimpar" style="display:none" value="Limpar"
+					actionListener="#{livroBean.prepararNovoLivro}"
+					update=":form,:growl,:grid"
 					oncomplete="wiz.loadStep(wiz.cfg.steps[0], true);" />
 			</h:form>
+			<p:dialog header="Detalhes" widgetVar="livroDialog" resizable="false"
+				id="livroDlg" showEffect="fade" hideEffect="explode" modal="true">
+				<p:accordionPanel id="display" multiple="true">
+					<p:tab title="Livro">
+						<h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
+							<h:outputText value="Titulo:" />
+							<h:outputText value="#{livroBean.livroDetalhe.titulo}" />
+
+							<h:outputText value="Editora:" />
+							<h:outputText value="#{livroBean.livroDetalhe.editora.nome}" />
+
+							<h:outputText value="Assunto:" />
+							<h:outputText value="#{livroBean.livroDetalhe.assunto.nome}" />
+
+							<h:outputText value="Autor:" />
+							<h:outputText value="#{livroBean.livroDetalhe.autor.nome}" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Itens">
+						<p:dataTable var="li" value="#{livroBean.livroDetalhe.itens}">
+							<p:column headerText="Codigo">
+								<h:outputText value="#{li.codigo}" />
+							</p:column>
+							<p:column headerText="Ano">
+								<h:outputText value="#{li.ano}" />
+							</p:column>
+							<p:column headerText="Edição">
+								<h:outputText value="#{li.edicao}" />
+							</p:column>
+							<p:column headerText="Cutter">
+								<h:outputText value="#{li.cutter}" />
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+				</p:accordionPanel>
+			</p:dialog>
 		</ui:define>
 	</ui:composition>
 </ui:composition>

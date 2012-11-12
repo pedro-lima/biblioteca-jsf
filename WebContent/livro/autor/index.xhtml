@@ -19,13 +19,13 @@
 							<p:inputText id="autor-name" label="nome" size="40"
 								required="true" requiredMessage="Por favor, insira o nome."
 								value="#{autorBean.autorSelecionado.nome}">
-							</p:inputText>
-							<p:message for="autor-name" />
+							</p:inputText>							
 						</h:panelGroup>
 						<p:commandButton actionListener="#{autorBean.salvarAutor}"
-							update=":grid:listagem" value="Salvar"></p:commandButton>
-						<p:commandButton actionListener="#{autorBean.prepararNovoAutor}"
-							update=":form:panel" value="Limpar"></p:commandButton>
+							update=":grid:listagem,:form,:growl" value="Salvar"></p:commandButton>
+						<p:commandButton
+							onclick="document.getElementById('limparButton').click()"
+							value="Limpar"></p:commandButton>
 					</h:panelGrid>
 					<br style="clear: both;" />
 				</p:panel>
@@ -48,6 +48,10 @@
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
+			</h:form>
+			<h:form prependId="false">
+				<p:commandButton id="limparButton" actionListener="#{autorBean.prepararNovoAutor}" style="display:none"
+					update=":form:panel,:growl" value="Limpar"></p:commandButton>
 			</h:form>
 		</ui:define>
 	</ui:composition>
