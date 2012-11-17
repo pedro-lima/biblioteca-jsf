@@ -28,7 +28,11 @@ import br.com.biblioteca.model.pessoa.Locador;
 		@NamedQuery(name = "Emprestimo.Livro.findAll", query = "SELECT o.livros FROM Emprestimo o WHERE o.id=:id"),
 		@NamedQuery(name = "Emprestimo.findAll.Ativo", query = "SELECT o FROM Emprestimo o "
 				+ " WHERE o.locador.id=:id AND o.dataDevolucao IS NULL"),
-		@NamedQuery(name = "Emprestimo.Join.Livro", query = "SELECT o from Emprestimo o LEFT JOIN FETCH o.livros WHERE o.id=:id") })
+		@NamedQuery(name = "Emprestimo.Join.Livro", query = "SELECT o from Emprestimo o LEFT JOIN FETCH o.livros WHERE o.id=:id"),
+		@NamedQuery(name = "Emprestimo.Join.Livro.Locador", query = "SELECT o from Emprestimo o "
+				+ " LEFT JOIN FETCH o.locador "
+				+ " LEFT JOIN FETCH o.livros "
+				+ " WHERE o.id=:id") })
 public class Emprestimo implements Serializable {
 	public static final int diasLimite = 12;
 	private static final long serialVersionUID = 1L;
@@ -114,13 +118,6 @@ public class Emprestimo implements Serializable {
 		this.livros = livros;
 	}
 
-	@Override
-	public String toString() {
-		return "Emprestimo [id=" + id + ", locador=" + locador
-				+ ", dataEmprestimo=" + dataEmprestimo + ", dataDevolucao="
-				+ dataDevolucao + "]";
-	}
-
 	public static Date calcularDataDevolucao(Date dataEmprestimo, int dias) {
 		GregorianCalendar gc = new GregorianCalendar();
 		gc.set(GregorianCalendar.DAY_OF_MONTH,
@@ -142,7 +139,7 @@ public class Emprestimo implements Serializable {
 		else
 			return "Finalizado";
 	}
-	
+
 	public boolean getDesabilitarFecharEmprestimo() {
 		return this.dataDevolucao != null;
 	}

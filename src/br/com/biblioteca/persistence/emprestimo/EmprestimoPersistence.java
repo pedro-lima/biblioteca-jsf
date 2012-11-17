@@ -21,7 +21,14 @@ public class EmprestimoPersistence extends AbstractPersistence<Emprestimo> {
 		List<QueryParam> parans = new ArrayList<QueryParam>();
 		parans.add(new QueryParam("id",id));
 		return (Emprestimo) this.getNamedQuery("Emprestimo.Join.Livro",parans).
-				getResultList();
+				getSingleResult();
+	}
+	
+	public Emprestimo findEmprestimoGetLivrosAndLocador(long id) {
+		List<QueryParam> parans = new ArrayList<QueryParam>();
+		parans.add(new QueryParam("id",id));
+		return (Emprestimo) this.getNamedQuery("Emprestimo.Join.Livro.Locador",parans).
+				getSingleResult();
 	}
 
 	@Override

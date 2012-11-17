@@ -55,7 +55,7 @@
 										headerText="Ação">
 										<p:commandButton id="selectEdit" update=":form"
 											actionListener="#{emprestimoBean.adicionarLivroEmprestimo(item)}"
-											icon="ui-icon-pencil" ajax="false" title="View">
+											icon="ui-icon-pencil" title="View">
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>
@@ -87,7 +87,7 @@
 										headerText="Ação">
 										<p:commandButton id="selectEdit" update=":form"
 											actionListener="#{emprestimoBean.removerLivroEmprestimo(item)}"
-											icon="ui-icon-trash" ajax="false" title="View">
+											icon="ui-icon-trash" title="View">
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>
@@ -127,13 +127,56 @@
 					</p:column>
 					<p:column style="width:10%;text-align: center;"
 						headerText="Finalizar">
-						<p:commandButton id="selectEdit" update=":form,:grid"
+						<p:commandButton id="selectEdit" update=":form,:grid,:growl"
 							disabled="#{em.desabilitarFecharEmprestimo}"
 							actionListener="#{emprestimoBean.finalizarEmprestimo(em.id)}"
 							icon="ui-icon-disk" title="View">
 						</p:commandButton>
+						<p:commandButton id="selectButtonView" update=":grid:display"
+							oncomplete="emprestimoDialog.show()" icon="ui-icon-search"
+							actionListener="#{emprestimoBean.prepararEmprestimoDetalhe(em.id)}"
+							title="View"></p:commandButton>
 					</p:column>
 				</p:dataTable>
+				<p:dialog header="Detalhes" widgetVar="emprestimoDialog"
+					resizable="false" id="livroDlg" showEffect="fade"
+					hideEffect="explode" modal="true">
+					<p:accordionPanel id="display" multiple="true">
+						<p:tab title="Emprestimo">
+							<h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
+								<h:outputText value="Locador:" />
+								<h:outputText
+									value="#{emprestimoBean.emprestimoDetalhe.locador.nome}" />
+
+								<h:outputText value="Data Emprestimo:" />
+								<h:outputText
+									value="#{emprestimoBean.emprestimoDetalhe.dataEmprestimo}" />
+
+								<h:outputText value="Data Devolucao:" />
+								<h:outputText
+									value="#{emprestimoBean.emprestimoDetalhe.dataDevolucao}" />
+
+								<h:outputText value="Status:" />
+								<h:outputText
+									value="#{emprestimoBean.emprestimoDetalhe.situacaoEmprestimo}" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="Livros">
+							<p:dataTable var="li"
+								value="#{emprestimoBean.emprestimoDetalhe.livros}">
+								<p:column headerText="Codigo">
+									<h:outputText value="#{li.codigo}" />
+								</p:column>
+								<p:column headerText="Ano">
+									<h:outputText value="#{li.ano}" />
+								</p:column>
+								<p:column headerText="Edição">
+									<h:outputText value="#{li.edicao}" />
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+					</p:accordionPanel>
+				</p:dialog>
 			</h:form>
 		</ui:define>
 	</ui:composition>

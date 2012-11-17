@@ -58,10 +58,4 @@ public class Locador extends Pessoa {
 		this.emprestimos = emprestimos;
 	}
 
-	@Override
-	public String toString() {
-		return "Locador [reservas=" + reservas + ", emprestimos=" + emprestimos
-				+ "]";
-	}
-
 }

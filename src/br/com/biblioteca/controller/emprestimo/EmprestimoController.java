@@ -113,33 +113,43 @@ public class EmprestimoController implements Serializable {
 		FacesContext fc = FacesContext.getCurrentInstance();
 
 		try {
-			Locador locador = this.pessoaDao
-					.findLocadorGetEmprestimos(this.locadorSelecionado);
-			locador.getEmprestimos().add(this.emprestimoSelecionado);
+			if (this.livrosSelecionados.size() == 0) {
+				FacesMessage msg = new FacesMessage("ERRO:",
+						"Nenhum livro foi selecionado.");
+				msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+				fc.addMessage(null, msg);
+				fc.renderResponse();
+			} else {
+				Locador locador = this.pessoaDao
+						.findLocadorGetEmprestimos(this.locadorSelecionado);
+				locador.getEmprestimos().add(this.emprestimoSelecionado);
 
-			this.emprestimoSelecionado.setLocador(locador);
-			this.emprestimoSelecionado.setDataEmprestimo(Emprestimo
-					.calcularDataOperacaoEmprestimo());
-			this.emprestimoSelecionado.setDataDevolucaoEsperada(Emprestimo
-					.calcularDataDevolucao(
-							this.emprestimoSelecionado.getDataEmprestimo(),
-							Emprestimo.diasLimite));
-			this.emprestimoDao.create(emprestimoSelecionado);
+				this.emprestimoSelecionado.setLocador(locador);
+				this.emprestimoSelecionado.setDataEmprestimo(Emprestimo
+						.calcularDataOperacaoEmprestimo());
+				this.emprestimoSelecionado.setDataDevolucaoEsperada(Emprestimo
+						.calcularDataDevolucao(
+								this.emprestimoSelecionado.getDataEmprestimo(),
+								Emprestimo.diasLimite));
+				this.emprestimoDao.create(emprestimoSelecionado);
 
-			List<ItemLivro> livros = new ArrayList<ItemLivro>();
-			for (ItemLivro l : livrosSelecionados) {
-				livros.add(this.livroDao.findItemLivroGetEmprestimos(l.getId()));
+				List<ItemLivro> livros = new ArrayList<ItemLivro>();
+				for (ItemLivro l : livrosSelecionados) {
+					livros.add(this.livroDao.findItemLivroGetEmprestimos(l
+							.getId()));
+				}
+
+				this.emprestimoSelecionado.getLivros().addAll(livros);
+				this.emprestimoDao.update(emprestimoSelecionado);
+				this.prepararNovoEmprestimo();
+
+				FacesMessage msg = new FacesMessage("SUCESSO",
+						"Operação realizada com sucesso.");
+				msg.setSeverity(FacesMessage.SEVERITY_INFO);
+				fc.addMessage(null, msg);
+				fc.renderResponse();
+
 			}
-
-			this.emprestimoSelecionado.getLivros().addAll(livros);
-			this.emprestimoDao.update(emprestimoSelecionado);
-			this.prepararNovoEmprestimo();
-			
-			FacesMessage msg = new FacesMessage("SUCESSO",
-					"Operação realizada com sucesso.");
-			msg.setSeverity(FacesMessage.SEVERITY_INFO);
-			fc.addMessage(null, msg);
-			fc.renderResponse();
 		} catch (Exception e) {
 			FacesMessage msg = new FacesMessage("ERRO:",
 					"Erro ao realizar a operação.");
@@ -166,7 +176,7 @@ public class EmprestimoController implements Serializable {
 			this.emprestimoDao.update(emprestimo);
 			this.prepararNovoEmprestimo();
 			this.iscallback = false;
-			
+
 			FacesMessage msg = new FacesMessage("SUCESSO",
 					"Operação realizada com sucesso.");
 			msg.setSeverity(FacesMessage.SEVERITY_INFO);
@@ -178,7 +188,7 @@ public class EmprestimoController implements Serializable {
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			fc.addMessage(null, msg);
 			fc.renderResponse();
-		}		
+		}
 	}
 
 	public void prepararListagens() {
@@ -197,4 +207,22 @@ public class EmprestimoController implements Serializable {
 		this.locadores = this.getLocadoresCadastrados();
 	}
 
+	private Emprestimo emprestimoDetalhe = new Emprestimo();
+
+	public Emprestimo getEmprestimoDetalhe() {
+		return emprestimoDetalhe;
+	}
+
+	public void setEmprestimoDetalhe(Emprestimo emprestimoDetalhe) {
+		this.emprestimoDetalhe = emprestimoDetalhe;
+	}
+
+	public void prepararEmprestimoDetalhe(long id) {
+		this.emprestimoDetalhe = this.emprestimoDao
+				.findEmprestimoGetLivrosAndLocador(id);
+	}
+
+	public class ListaLivrosVazioException extends Exception {
+		private static final long serialVersionUID = 1L;
+	}
 }
