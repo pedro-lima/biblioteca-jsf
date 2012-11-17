@@ -6,6 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+<f:metadata>  
+    <f:event type="preRenderView" listener="#{locadorBean.criarListagens}"/>  
+</f:metadata>  	
 <ui:composition template="/template/masterTemplate.xhtml">
 	<ui:composition template="/template/masterTemplate.xhtml">
 		<ui:param name="pageTitle" value="Gerenciar Locadores"></ui:param>
@@ -20,7 +23,6 @@
 									requiredMessage="Por favor, insira o nome."
 									value="#{locadorBean.locadorSelecionado.nome}">
 								</p:inputText>
-								<p:message for="nome"></p:message>
 							</h:panelGroup>
 							<h:outputText value="RG:"></h:outputText>
 							<h:panelGroup>
@@ -40,12 +42,11 @@
 					</p:fieldset>
 					<br />
 					<p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500">
-
 						<h:panelGrid columns="2" cellpadding="10">
 							<h:outputText value="Rua:"></h:outputText>
 							<h:panelGroup>
 								<p:inputText id="rua" label="nome" size="40" required="true"
-									requiredMessage="Por favor, insira o nome."
+									requiredMessage="Por favor, insira a rua."
 									value="#{locadorBean.locadorSelecionado.endereco.rua}">
 								</p:inputText>
 							</h:panelGroup>
@@ -75,7 +76,8 @@
 								value="#{locadorBean.locadorSelecionado.endereco.complemento}"></p:inputTextarea>
 							<h:outputText value="Pais:"></h:outputText>
 							<p:selectOneMenu id="pais"
-								value="#{locadorBean.enderecoBean.paisSelecionado}">
+								value="#{locadorBean.enderecoBean.paisSelecionado}"
+								required="true">
 								<f:selectItems value="#{locadorBean.enderecoBean.listaPais}" />
 								<p:ajax update="estado"
 									listener="#{locadorBean.enderecoBean.valueChangePais}"
@@ -84,7 +86,7 @@
 								<p:ajax update="cidade" event="change" />
 							</p:selectOneMenu>
 							<h:outputText value="Estado:"></h:outputText>
-							<p:selectOneMenu id="estado"
+							<p:selectOneMenu id="estado" required="true"
 								value="#{locadorBean.enderecoBean.estadoSelecionado}">
 								<f:selectItems value="#{locadorBean.enderecoBean.listaEsdados}" />
 								<p:ajax update="cidade"
@@ -92,7 +94,7 @@
 									event="change" />
 							</p:selectOneMenu>
 							<h:outputText value="Cidade:"></h:outputText>
-							<p:selectOneMenu id="cidade"
+							<p:selectOneMenu id="cidade" required="true"
 								value="#{locadorBean.enderecoBean.cidadeSelecionada}">
 								<f:selectItems value="#{locadorBean.enderecoBean.listaCidades}" />
 							</p:selectOneMenu>
@@ -100,9 +102,11 @@
 					</p:fieldset>
 					<br></br>
 					<h:panelGrid columns="2" cellpadding="10">
-						<p:commandButton value="Salvar" ajax="false"
+						<p:commandButton value="Salvar" update=":grid,:form,:growl"
 							actionListener="#{locadorBean.salvarLocador}"></p:commandButton>
-						<p:commandButton value="Limpar" ajax="false"></p:commandButton>
+						<p:commandButton
+							onclick="document.getElementById('limparButton').click()"
+							value="Limpar"></p:commandButton>
 					</h:panelGrid>
 				</h:form>
 				<br style="clear: both;" />
@@ -176,6 +180,11 @@
 						</p:tab>
 					</p:accordionPanel>
 				</p:dialog>
+			</h:form>
+			<h:form prependId="false">
+				<p:commandButton id="limparButton" style="display:none"
+					actionListener="#{locadorBean.prepararNovoLocador}"
+					update=":form,:growl" value="Limpar"></p:commandButton>
 			</h:form>
 		</ui:define>
 	</ui:composition>

@@ -6,6 +6,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event type="preRenderView"
+		listener="#{estadoBean.prepararListagemPais}" />
+</f:metadata>
 <ui:composition template="/template/masterTemplate.xhtml">
 	<ui:composition template="/template/masterTemplate.xhtml">
 		<ui:param name="pageTitle" value="Gerenciar Estados"></ui:param>

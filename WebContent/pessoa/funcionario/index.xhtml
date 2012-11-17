@@ -6,10 +6,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+<f:metadata>  
+    <f:event type="preRenderView" listener="#{funcionarioBean.criarListagens}"/>  
+</f:metadata>  	
 <ui:composition template="/template/masterTemplate.xhtml">
 	<ui:composition template="/template/masterTemplate.xhtml">
 		<ui:param name="pageTitle" value="Gerenciar Funcionarios"></ui:param>
-		<ui:define name="content">		
+		<ui:define name="content">
 			<p:panel id="panel" header="Registro" toggleable="true">
 				<h:form id="form">
 					<f:event listener="#{funcionarioBean.validaLogin}"
@@ -77,7 +80,7 @@
 							<p:inputTextarea autoResize="false" rows="10" cols="60"
 								value="#{funcionarioBean.funcionarioSelecionado.endereco.complemento}"></p:inputTextarea>
 							<h:outputText value="Pais:"></h:outputText>
-							<p:selectOneMenu id="pais"
+							<p:selectOneMenu id="pais" required="true"
 								value="#{funcionarioBean.enderecoBean.paisSelecionado}">
 								<f:selectItems value="#{funcionarioBean.enderecoBean.listaPais}" />
 								<p:ajax update="estado"
@@ -87,7 +90,7 @@
 								<p:ajax update="cidade" event="change" />
 							</p:selectOneMenu>
 							<h:outputText value="Estado:"></h:outputText>
-							<p:selectOneMenu id="estado"
+							<p:selectOneMenu id="estado" required="true"
 								value="#{funcionarioBean.enderecoBean.estadoSelecionado}">
 								<f:selectItems
 									value="#{funcionarioBean.enderecoBean.listaEsdados}" />
@@ -96,7 +99,7 @@
 									event="change" />
 							</p:selectOneMenu>
 							<h:outputText value="Cidade:"></h:outputText>
-							<p:selectOneMenu id="cidade"
+							<p:selectOneMenu id="cidade" required="true"
 								value="#{funcionarioBean.enderecoBean.cidadeSelecionada}">
 								<f:selectItems
 									value="#{funcionarioBean.enderecoBean.listaCidades}" />
@@ -138,9 +141,11 @@
 					</p:fieldset>
 					<br></br>
 					<h:panelGrid columns="2" cellpadding="10">
-						<p:commandButton value="Salvar" ajax="false"
+						<p:commandButton value="Salvar" update=":grid,:form,:growl"
 							actionListener="#{funcionarioBean.salvarFuncionario}"></p:commandButton>
-						<p:commandButton value="Limpar" ajax="false"></p:commandButton>
+						<p:commandButton
+							onclick="document.getElementById('limparButton').click()"
+							value="Limpar"></p:commandButton>
 					</h:panelGrid>
 				</h:form>
 				<br style="clear: both;" />
@@ -224,6 +229,11 @@
 						</p:tab>
 					</p:accordionPanel>
 				</p:dialog>
+			</h:form>
+			<h:form prependId="false">
+				<p:commandButton id="limparButton" value="Salvar"
+					update=":form,:growl" style="display:none"
+					actionListener="#{funcionarioBean.prepararNovoFuncionario}"></p:commandButton>
 			</h:form>
 		</ui:define>
 	</ui:composition>

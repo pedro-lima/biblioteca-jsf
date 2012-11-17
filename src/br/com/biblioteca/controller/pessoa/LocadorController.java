@@ -2,9 +2,10 @@ package br.com.biblioteca.controller.pessoa;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import br.com.biblioteca.model.endereco.Cidade;
 import br.com.biblioteca.model.endereco.Estado;
@@ -18,16 +19,16 @@ public class LocadorController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private PessoaPersistence pessoaDao;
-	private Locador locadorSelecionado = new Locador();
 	@EJB
 	private EnderecoBean enderecoBean;
+	private Locador locadorSelecionado = new Locador();
+	private Locador locadorDetalhe = new Locador();
 
 	public LocadorController() {
 		super();
 	}
-
-	@PostConstruct
-	private void criarListagens() {
+	
+	public void criarListagens() {
 		this.getEnderecoBean().construirListagemEndereco();
 	}
 
@@ -36,6 +37,7 @@ public class LocadorController implements Serializable {
 	}
 
 	public void salvarLocador() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			Cidade cidadeNova = this.enderecoBean.getCidade();
 			if (this.locadorSelecionado.getId() == null) {
@@ -50,11 +52,19 @@ public class LocadorController implements Serializable {
 				this.locadorSelecionado.getEndereco().setCidade(cidadeNova);
 				cidadeNova.getEnderecos().add(
 						this.locadorSelecionado.getEndereco());
-				this.pessoaDao.update(this.locadorSelecionado);				
+				this.pessoaDao.update(this.locadorSelecionado);
 			}
 			this.prepararNovoLocador();
+			FacesMessage msg = new FacesMessage("SUCESSO",
+					"Operação realizada com sucesso.");
+			msg.setSeverity(FacesMessage.SEVERITY_INFO);
+			fc.addMessage(null, msg);
+			fc.renderResponse();
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			FacesMessage msg = new FacesMessage("ERRO:",
+					"Erro ao realizar a operação.");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			fc.addMessage(null, msg);
 		}
 	}
 
@@ -84,8 +94,6 @@ public class LocadorController implements Serializable {
 				estado.getId(), cidade.getId());
 
 	}
-
-	private Locador locadorDetalhe;
 
 	public Locador getLocadorDetalhe() {
 		return locadorDetalhe;

@@ -3,7 +3,6 @@ package br.com.biblioteca.controller.livro;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -137,8 +136,7 @@ public class LivroController implements Serializable {
 		this.setLivroSelecionado(livro);
 	}
 
-	@PostConstruct
-	private void prepararListagens() {
+	public void prepararListagens() {
 		this.construirListaAutor();
 		this.construirListaAssunto();
 		this.construirListaEditora();

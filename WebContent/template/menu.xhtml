@@ -12,40 +12,14 @@
 				<!-- start nav-right -->
 				<div id="nav-right">
 
-					<div class="nav-divider"></div>
-					<div class="showhide-account">
-						<h:link>
-							<h:graphicImage library="images"
-								name="shared/nav/nav_myaccount.gif" width="93" height="14"
-								alt=""></h:graphicImage>
-						</h:link>
-					</div>
-					<div class="nav-divider"></div>
-					<h:link id="logout">
-						<h:graphicImage library="images" name="shared/nav/nav_logout.gif"
-							width="64" height="14" alt=""></h:graphicImage>
-					</h:link>
-					<div class="clear"></div>
 
-					<!--  start account-content -->
-					<div class="account-content">
-						<div class="account-drop-inner">
-							<h:link id="acc-settings">Settings</h:link>
-							<div class="clear"></div>
-							<div class="acc-line"></div>
-							<h:link id="acc-details">Personal details</h:link>
-							<div class="clear"></div>
-							<div class="acc-line"></div>
-							<h:link id="acc-project">Project details</h:link>
-							<div class="clear"></div>
-							<div class="acc-line"></div>
-							<h:link id="acc-inbox">Inbox</h:link>
-							<div class="clear"></div>
-							<div class="acc-line"></div>
-							<h:link id="acc-stats">Statistics</h:link>
-						</div>
-					</div>
-					<!--  end account-content -->
+					<h:form style="padding-top:10px;float:right">
+						<h:commandLink id="logout" action="#{loginBean.logout}">
+							<h:graphicImage library="images" name="shared/nav/nav_logout.gif"
+								width="64" height="14" alt=""></h:graphicImage>
+						</h:commandLink>
+					</h:form>
+					<div class="clear"></div>
 
 				</div>
 				<!-- end nav-right -->
@@ -97,7 +71,7 @@
 								<!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->
 								<div class="select_sub">
 									<ul class="sub">
-										<li><a href="#nogo">Gerenciar Emprestimos</a></li>
+										<li><a href="/biblioteca-jsf/emprestimo/index.jsf">Gerenciar Emprestimos</a></li>
 									</ul>
 								</div> <!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
 						</ul>

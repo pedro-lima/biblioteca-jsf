@@ -6,6 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event type="preRenderView" listener="#{livroBean.prepararListagens}" />
+</f:metadata>
 <ui:composition template="/template/masterTemplate.xhtml">
 	<ui:composition template="/template/masterTemplate.xhtml">
 		<ui:param name="pageTitle" value="Gerenciar Livros"></ui:param>
@@ -23,7 +26,7 @@
 											value="#{livroBean.livroSelecionado.titulo}"></h:inputText>
 										<p:message for="tilulo"></p:message>
 									</h:panelGroup>
-									<h:outputText value="Autore:"></h:outputText>
+									<h:outputText value="Autor:"></h:outputText>
 									<h:panelGroup>
 										<p:selectOneMenu id="autores"
 											value="#{livroBean.autorSelecionado}" style="width:200px"

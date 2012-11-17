@@ -2,7 +2,6 @@ package br.com.biblioteca.controller.pessoa;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -23,19 +22,19 @@ public class FuncionarioController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private PessoaPersistence pessoaDao;
-	private Funcionario funcionarioSelecionado = new Funcionario();
 	@EJB
 	private EnderecoBean enderecoBean;
+	private Funcionario funcionarioDetalhe = new Funcionario();
+	private Funcionario funcionarioSelecionado = new Funcionario();
 
 	public FuncionarioController() {
 		super();
 	}
-
-	@PostConstruct
-	private void criarListagens() {
+	
+	public void criarListagens() {
 		this.getEnderecoBean().construirListagemEndereco();
 	}
-
+	
 	public void prepararNovoFuncionario() {
 		this.funcionarioSelecionado = new Funcionario();
 	}
@@ -100,8 +99,6 @@ public class FuncionarioController implements Serializable {
 				estado.getId(), cidade.getId());
 	}
 
-	private Funcionario funcionarioDetalhe;
-
 	public Funcionario getFuncionarioDetalhe() {
 		return funcionarioDetalhe;
 	}
@@ -121,16 +118,18 @@ public class FuncionarioController implements Serializable {
 
 		UIInput login = (UIInput) components.findComponent("login");
 
-		Funcionario funcionario = this.pessoaDao.findByLogin(login.getValue()
-				.toString());
-		if (funcionario != null) {
-			if (!funcionario.getId()
-					.equals(this.funcionarioSelecionado.getId())) {
-				FacesMessage msg = new FacesMessage("ERRO",
-						"Login ja cadastrado.");
-				msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-				fc.addMessage(login.getClientId(), msg);
-				fc.renderResponse();
+		if (login.getValue() != null) {
+			Funcionario funcionario = this.pessoaDao.findByLogin(login
+					.getValue().toString());
+			if (funcionario != null) {
+				if (!funcionario.getId().equals(
+						this.funcionarioSelecionado.getId())) {
+					FacesMessage msg = new FacesMessage("ERRO",
+							"Login ja cadastrado.");
+					msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+					fc.addMessage(login.getClientId(), msg);
+					fc.renderResponse();
+				}
 			}
 		}
 	}
@@ -140,18 +139,21 @@ public class FuncionarioController implements Serializable {
 		UIComponent components = event.getComponent();
 
 		UIInput matricula = (UIInput) components.findComponent("matricula");
-		Funcionario funcionario = this.pessoaDao.findByMatricula(matricula
-				.getValue().toString());
-		if (funcionario != null) {
-			if (!funcionario.getId()
-					.equals(this.funcionarioSelecionado.getId())) {
-				FacesMessage msg = new FacesMessage("ERRO",
-						"Matricula ja cadastrada.");
-				msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-				fc.addMessage(matricula.getClientId(), msg);
-				fc.renderResponse();
+		if (matricula.getValue() != null) {
+			Funcionario funcionario = this.pessoaDao.findByMatricula(matricula
+					.getValue().toString());
+			if (funcionario != null) {
+				if (!funcionario.getId()
+						.equals(this.funcionarioSelecionado.getId())) {
+					FacesMessage msg = new FacesMessage("ERRO",
+							"Matricula ja cadastrada.");
+					msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+					fc.addMessage(matricula.getClientId(), msg);
+					fc.renderResponse();
+				}
 			}
 		}
+		
 	}
 
 }

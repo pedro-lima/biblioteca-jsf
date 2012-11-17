@@ -32,7 +32,7 @@ public class CidadeController implements Serializable {
 	private long paisSelecionado;
 	private long estadoSelecionado;
 	private List<SelectItem> listaEsdados = new ArrayList<SelectItem>();
-	private List<SelectItem> listaPais;
+	private List<SelectItem> listaPais = new ArrayList<SelectItem>();
 
 	public CidadeController() {
 		super();
@@ -97,15 +97,14 @@ public class CidadeController implements Serializable {
 	}
 
 	public List<SelectItem> getListaPais() {
-		if (this.listaPais == null) {
-			this.listaPais = new ArrayList<SelectItem>();
-			for (Pais pais : this.paisDao.findAll()) {
-				this.listaPais
-						.add(new SelectItem(pais.getId(), pais.getNome()));
-			}
-			this.criarEstadosListagem();
-		}
 		return listaPais;
+	}
+
+	public void prepararListagemPais() {
+		for (Pais pais : this.paisDao.findAll()) {
+			this.listaPais.add(new SelectItem(pais.getId(), pais.getNome()));
+		}
+		this.criarEstadosListagem();
 	}
 
 	public long getEstadoSelecionado() {

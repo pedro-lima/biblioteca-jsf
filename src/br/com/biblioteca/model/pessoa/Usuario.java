@@ -16,7 +16,9 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQueries({
 		@NamedQuery(name = "Usuario.findAll", query = "SELECT o FROM Usuario o"),
 		@NamedQuery(name = "Usuario.count", query = "SELECT COUNT(o) FROM Usuario o"),
-		@NamedQuery(name = "Usuario.findById", query = "SELECT o FROM Usuario o WHERE o.id=:id") })
+		@NamedQuery(name = "Usuario.findById", query = "SELECT o FROM Usuario o WHERE o.id=:id"),
+		@NamedQuery(name = "Usuario.findByLonginAndSenha", query = "SELECT o FROM Usuario o "
+				+ " WHERE o.login LIKE :login AND o.senha LIKE :senha") })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -27,7 +29,7 @@ public class Usuario implements Serializable {
 	private String senha;
 	@OneToOne
 	private Funcionario funcionario;
-	
+
 	public Usuario() {
 		super();
 	}

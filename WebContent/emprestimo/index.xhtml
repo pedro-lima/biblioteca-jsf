@@ -6,21 +6,26 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event type="preRenderView"
+		listener="#{emprestimoBean.prepararListagens}" />
+</f:metadata>
 <ui:composition template="/template/masterTemplate.xhtml">
 	<ui:composition template="/template/masterTemplate.xhtml">
-		<ui:param name="pageTitle" value="Gerenciar Livros"></ui:param>
+		<ui:param name="pageTitle" value="Gerenciar Emprestimos"></ui:param>
 		<ui:define name="content">
 			<h:form id="form" prependId="false">
 				<p:panel id="panel" header="Registro" toggleable="true">
 					<p:wizard widgetVar="wiz" nextLabel="Proximo" backLabel="Anterior">
 						<p:tab id="locador" title="Locadores">
 							<p:panel header="Locador Selecionado">
-								<p:selectOneMenu id="editoras"
+								<p:selectOneMenu id="locadores" required="true"
 									value="#{emprestimoBean.locadorSelecionado}"
 									style="width:200px"
 									panelStyle="width:190px;height:150px;overflow:scroll;">
 									<f:selectItems value="#{emprestimoBean.locadores}"></f:selectItems>
 								</p:selectOneMenu>
+								<p:message for="locadores"></p:message>
 							</p:panel>
 							<br />
 						</p:tab>
@@ -31,6 +36,9 @@
 									rows="10" emptyMessage="Não existem livros cadastrados."
 									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 									rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
+									<p:column headerText="Codigo">
+										<h:outputText value="#{item.codigo}" />
+									</p:column>
 									<p:column headerText="Titulo">
 										<h:outputText value="#{item.livro.titulo}" />
 									</p:column>
@@ -60,6 +68,9 @@
 									rows="10" emptyMessage="Não existem livros cadastrados."
 									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 									rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
+									<p:column headerText="Codigo">
+										<h:outputText value="#{item.codigo}" />
+									</p:column>
 									<p:column headerText="Titulo">
 										<h:outputText value="#{item.livro.titulo}" />
 									</p:column>
@@ -82,9 +93,10 @@
 								</p:dataTable>
 							</p:panel>
 							<br />
-							<p:commandButton id="salvar" update=":form"
+							<p:commandButton id="salvar"
 								actionListener="#{emprestimoBean.salvarEmprestimo}"
-								value="Salvar" style="float:right" ajax="false" title="View">
+								value="Salvar" style="float:right" update=":form,:growl,:grid"
+								oncomplete="wiz.loadStep(wiz.cfg.steps[0], true);" title="View">
 							</p:commandButton>
 						</p:tab>
 					</p:wizard>
@@ -113,16 +125,15 @@
 					<p:column headerText="Status">
 						<h:outputText value="#{em.situacaoEmprestimo}" />
 					</p:column>
-					<p:column style="width:10%;text-align: center;" headerText="Finalizar">
-						<p:commandButton id="selectEdit" update=":form,:grid" disabled="#{em.desabilitarFecharEmprestimo}"
+					<p:column style="width:10%;text-align: center;"
+						headerText="Finalizar">
+						<p:commandButton id="selectEdit" update=":form,:grid"
+							disabled="#{em.desabilitarFecharEmprestimo}"
 							actionListener="#{emprestimoBean.finalizarEmprestimo(em.id)}"
-							icon="ui-icon-disk" ajax="false" title="View">
+							icon="ui-icon-disk" title="View">
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
-			</h:form>
-			<h:form prependId="false">
-
 			</h:form>
 		</ui:define>
 	</ui:composition>

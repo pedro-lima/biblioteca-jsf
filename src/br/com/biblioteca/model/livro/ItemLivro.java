@@ -25,9 +25,8 @@ import br.com.biblioteca.model.reserva.Reserva;
 		@NamedQuery(name = "ItemLivro.Reserva.findAll", query = "SELECT o.reservas FROM ItemLivro o WHERE o.id=:id"),
 		@NamedQuery(name = "ItemLivro.Emprestimo.count", query = "SELECT COUNT(o.emprestimos) FROM ItemLivro o WHERE o.id=:id"),
 		@NamedQuery(name = "ItemLivro.Emprestimo.findAll", query = "SELECT o.emprestimos FROM ItemLivro o WHERE o.id=:id"),
-		@NamedQuery(name = "ItemLivro.Disponiveis", query = "SELECT DISTINCT o FROM ItemLivro o LEFT JOIN FETCH o.emprestimos e "
-				+ "WHERE (o.emprestimos IS EMPTY) OR (o.emprestimos IS NOT EMPTY AND e.dataDevolucao IS NOT NULL)"),
-		@NamedQuery(name = "ItemLivro.Join.Emprestimo", query = "SELECT o from ItemLivro o LEFT JOIN FETCH o.emprestimos WHERE o.id=:id") })
+		@NamedQuery(name = "ItemLivro.Join.Emprestimo", query = "SELECT o from ItemLivro o LEFT JOIN FETCH o.emprestimos WHERE o.id=:id"),
+		@NamedQuery(name = "ItemLivro.Disponiveis", query = "SELECT o FROM ItemLivro o WHERE o.id NOT IN (SELECT l.id FROM Emprestimo e JOIN e.livros l WHERE e.dataDevolucao IS NULL)") })
 public class ItemLivro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -41,8 +40,8 @@ public class ItemLivro implements Serializable {
 	private Livro livro = new Livro();
 	@ManyToMany
 	private List<Reserva> reservas = new ArrayList<Reserva>();
-	@ManyToMany(mappedBy = "livros",cascade = { CascadeType.PERSIST,
-			CascadeType.REFRESH, CascadeType.MERGE },fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy = "livros", cascade = { CascadeType.PERSIST,
+			CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
 
 	public ItemLivro() {

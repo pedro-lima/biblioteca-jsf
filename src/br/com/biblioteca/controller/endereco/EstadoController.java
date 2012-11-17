@@ -89,14 +89,14 @@ public class EstadoController implements Serializable {
 	}
 
 	public List<SelectItem> getListaPais() {
-		if (this.listaPais == null) {
-			this.listaPais = new ArrayList<SelectItem>();
-			for (Pais pais : this.paisDao.findAll()) {
-				this.listaPais
-						.add(new SelectItem(pais.getId(), pais.getNome()));
-			}
-		}
 		return listaPais;
+	}
+
+	public void prepararListagemPais() {
+		this.listaPais = new ArrayList<SelectItem>();
+		for (Pais pais : this.paisDao.findAll()) {
+			this.listaPais.add(new SelectItem(pais.getId(), pais.getNome()));
+		}
 	}
 
 	public void prepararAlterarEstado(Estado estado) {

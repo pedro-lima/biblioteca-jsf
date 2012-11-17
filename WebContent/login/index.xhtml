@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/screen.css"
+		rel="stylesheet" type="text/css" />
+	<title>Internet Dreams - #{pageTitle}</title>
+	<!--[if IE]>
+		<link rel="stylesheet" media="all" type="text/css" href="css/pro_dropline_ie.css" />
+		<![endif]-->
+	<ui:insert name="style">
+	</ui:insert>
+</h:head>
+<ui:remove>
+	<h:body style="background-color:#332F31"></h:body>
+</ui:remove>
+<h:body style="background-color:#332F31">
+	<h:form>
+		<p:growl id="growl" showDetail="true" sticky="true" />
+		<div>
+			<!-- Start: login-holder -->
+			<div id="login-holder">
+
+				<!-- start logo -->
+				<div id="logo-login">
+					<h:graphicImage library="images" name="shared/logo.png"></h:graphicImage>
+				</div>
+				<!-- end logo -->
+
+				<div class="clear"></div>
+
+				<!--  start loginbox ................................................................................. -->
+				<div id="loginbox">
+
+					<!--  start login-inner -->
+					<div id="login-inner">
+						<h:panelGrid cellspacing="10" columns="2">
+							<h:outputText value="Login" style="font-weight: bold;"></h:outputText>
+							<h:panelGroup>
+								<p:inputText id="login" value="#{loginBean.usuario}"
+									required="true" styleClass="login-inp"></p:inputText>
+								<p:message for="login"></p:message>
+							</h:panelGroup>
+							<h:outputText value="Senha" style="font-weight: bold;"></h:outputText>
+							<h:panelGroup>
+								<p:inputText id="senha" value="#{loginBean.senha}"
+									required="true" styleClass="login-inp"></p:inputText>
+								<p:message for="senha"></p:message>
+							</h:panelGroup>
+							<p:commandButton action="#{loginBean.login}" ajax="false"
+								styleClass="submit-login"></p:commandButton>
+						</h:panelGrid>
+					</div>
+					<!--  end login-inner -->
+					<div class="clear"></div>
+				</div>
+				<!--  end loginbox -->
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>
