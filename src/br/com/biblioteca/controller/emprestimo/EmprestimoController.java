@@ -32,8 +32,7 @@ public class EmprestimoController implements Serializable {
 	private List<ItemLivro> livrosSelecionados = new ArrayList<ItemLivro>();
 	private List<ItemLivro> livrosCadastrados = null;
 	private List<SelectItem> locadores = null;
-	private boolean iscallback = false;
-
+	
 	public EmprestimoController() {
 		super();
 	}
@@ -105,7 +104,6 @@ public class EmprestimoController implements Serializable {
 	public void prepararNovoEmprestimo() {
 		this.emprestimoSelecionado = new Emprestimo();
 		this.livrosSelecionados.clear();
-		this.iscallback = false;
 		this.prepararListagens();
 	}
 
@@ -175,8 +173,7 @@ public class EmprestimoController implements Serializable {
 			emprestimo.setDataDevolucao(new Date(System.currentTimeMillis()));
 			this.emprestimoDao.update(emprestimo);
 			this.prepararNovoEmprestimo();
-			this.iscallback = false;
-
+	
 			FacesMessage msg = new FacesMessage("SUCESSO",
 					"Operação realizada com sucesso.");
 			msg.setSeverity(FacesMessage.SEVERITY_INFO);
@@ -192,11 +189,8 @@ public class EmprestimoController implements Serializable {
 	}
 
 	public void prepararListagens() {
-		if (this.iscallback == false) {
 			this.criarListagemLivros();
 			this.criarListagemLocadores();
-			this.iscallback = true;
-		}
 	}
 
 	public void criarListagemLivros() {

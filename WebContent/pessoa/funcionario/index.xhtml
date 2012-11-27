@@ -6,236 +6,237 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<f:metadata>  
-    <f:event type="preRenderView" listener="#{funcionarioBean.criarListagens}"/>  
-</f:metadata>  	
 <ui:composition template="/template/masterTemplate.xhtml">
-	<ui:composition template="/template/masterTemplate.xhtml">
-		<ui:param name="pageTitle" value="Gerenciar Funcionarios"></ui:param>
-		<ui:define name="content">
-			<p:panel id="panel" header="Registro" toggleable="true">
-				<h:form id="form">
-					<f:event listener="#{funcionarioBean.validaLogin}"
-						type="postValidate" />
-					<f:event listener="#{funcionarioBean.validaMatricula}"
-						type="postValidate" />
-					<p:fieldset legend="Pessoa" toggleable="true" toggleSpeed="500">
-						<h:panelGrid columns="2" cellpadding="10">
-							<h:outputText value="Nome:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="nome" label="nome" size="40" required="true"
-									requiredMessage="Por favor, insira o nome."
-									value="#{funcionarioBean.funcionarioSelecionado.nome}">
-								</p:inputText>
-								<p:message for="nome"></p:message>
-							</h:panelGroup>
-							<h:outputText value="RG:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="rg" label="nome" size="40" required="true"
-									requiredMessage="Por favor, insira o rg."
-									value="#{funcionarioBean.funcionarioSelecionado.rg}">
-								</p:inputText>
-							</h:panelGroup>
-							<h:outputText value="Telefone:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="telefone" label="nome" size="40"
-									required="true" requiredMessage="Por favor, insira o telefone."
-									value="#{funcionarioBean.funcionarioSelecionado.telefone}">
-								</p:inputText>
-							</h:panelGroup>
-						</h:panelGrid>
-					</p:fieldset>
-					<br />
-					<p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500">
-						<h:panelGrid columns="2" cellpadding="10">
-							<h:outputText value="Rua:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="rua" label="nome" size="40" required="true"
-									requiredMessage="Por favor, insira o nome."
-									value="#{funcionarioBean.funcionarioSelecionado.endereco.rua}">
-								</p:inputText>
-							</h:panelGroup>
-							<h:outputText value="Cep:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="cep" label="cep" size="40" required="true"
-									requiredMessage="Por favor, insira o cep."
-									value="#{funcionarioBean.funcionarioSelecionado.endereco.cep}">
-								</p:inputText>
-							</h:panelGroup>
-							<h:outputText value="Numero:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="numero" label="numero" size="40"
-									required="true" requiredMessage="Por favor, insira o numero."
-									value="#{funcionarioBean.funcionarioSelecionado.endereco.numero}">
-								</p:inputText>
-							</h:panelGroup>
-							<h:outputText value="Bairro:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="bairro" label="bairro" size="40"
-									required="true" requiredMessage="Por favor, insira o bairro."
-									value="#{funcionarioBean.funcionarioSelecionado.endereco.bairro}">
-								</p:inputText>
-							</h:panelGroup>
-							<h:outputText value="Complemento:"></h:outputText>
-							<p:inputTextarea autoResize="false" rows="10" cols="60"
-								value="#{funcionarioBean.funcionarioSelecionado.endereco.complemento}"></p:inputTextarea>
-							<h:outputText value="Pais:"></h:outputText>
-							<p:selectOneMenu id="pais" required="true"
-								value="#{funcionarioBean.enderecoBean.paisSelecionado}">
-								<f:selectItems value="#{funcionarioBean.enderecoBean.listaPais}" />
-								<p:ajax update="estado"
-									listener="#{funcionarioBean.enderecoBean.valueChangePais}"
-									event="change" />
-								<p:ajax update="cidade" event="change" />
-								<p:ajax update="cidade" event="change" />
-							</p:selectOneMenu>
-							<h:outputText value="Estado:"></h:outputText>
-							<p:selectOneMenu id="estado" required="true"
-								value="#{funcionarioBean.enderecoBean.estadoSelecionado}">
-								<f:selectItems
-									value="#{funcionarioBean.enderecoBean.listaEsdados}" />
-								<p:ajax update="cidade"
-									listener="#{funcionarioBean.enderecoBean.valueChangeEstado}"
-									event="change" />
-							</p:selectOneMenu>
-							<h:outputText value="Cidade:"></h:outputText>
-							<p:selectOneMenu id="cidade" required="true"
-								value="#{funcionarioBean.enderecoBean.cidadeSelecionada}">
-								<f:selectItems
-									value="#{funcionarioBean.enderecoBean.listaCidades}" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-					</p:fieldset>
-					<br />
-					<p:fieldset legend="Funcionario" toggleable="true"
-						toggleSpeed="500">
-						<h:panelGrid columns="2" cellpadding="10">
-							<h:outputText value="Matricula:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="matricula" label="matricula" size="40"
-									required="true"
-									requiredMessage="Por favor, insira o matricula."
-									value="#{funcionarioBean.funcionarioSelecionado.matricula}">
-								</p:inputText>
-							</h:panelGroup>
-						</h:panelGrid>
-					</p:fieldset>
-					<br />
-					<p:fieldset legend="Usuario" toggleable="true" toggleSpeed="500">
-						<h:panelGrid columns="2" cellpadding="10">
-							<h:outputText value="Login:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="login" label="login" size="40" required="true"
-									requiredMessage="Por favor, insira o login."
-									value="#{funcionarioBean.funcionarioSelecionado.usuario.login}">
-								</p:inputText>
-							</h:panelGroup>
-							<h:outputText value="Senha:"></h:outputText>
-							<h:panelGroup>
-								<p:inputText id="senha" label="senha" size="40" required="true"
-									requiredMessage="Por favor, insira o senha."
-									value="#{funcionarioBean.funcionarioSelecionado.usuario.senha}">
-								</p:inputText>
-							</h:panelGroup>
-						</h:panelGrid>
-					</p:fieldset>
-					<br></br>
+	<ui:param name="pageTitle" value="Gerenciar Funcionarios"></ui:param>
+	<ui:define name="content">
+		<p:panel id="panel" header="Registro" toggleable="true">
+			<h:form id="form">
+				<f:event listener="#{funcionarioBean.validaLogin}"
+					type="postValidate" />
+				<f:event listener="#{funcionarioBean.validaMatricula}"
+					type="postValidate" />
+				<p:fieldset legend="Pessoa" toggleable="true" toggleSpeed="500">
 					<h:panelGrid columns="2" cellpadding="10">
-						<p:commandButton value="Salvar" update=":grid,:form,:growl"
-							actionListener="#{funcionarioBean.salvarFuncionario}"></p:commandButton>
-						<p:commandButton
-							onclick="document.getElementById('limparButton').click()"
-							value="Limpar"></p:commandButton>
+						<h:outputText value="Nome:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="nome" label="nome" size="40" required="true"
+								requiredMessage="Por favor, insira o nome."
+								value="#{funcionarioBean.funcionarioSelecionado.nome}">
+							</p:inputText>
+							<p:message for="nome"></p:message>
+						</h:panelGroup>
+						<h:outputText value="RG:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="rg" label="nome" size="40" required="true"
+								requiredMessage="Por favor, insira o rg."
+								value="#{funcionarioBean.funcionarioSelecionado.rg}">
+							</p:inputText>
+						</h:panelGroup>
+						<h:outputText value="Telefone:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="telefone" label="nome" size="40" required="true"
+								requiredMessage="Por favor, insira o telefone."
+								value="#{funcionarioBean.funcionarioSelecionado.telefone}">
+							</p:inputText>
+						</h:panelGroup>
 					</h:panelGrid>
-				</h:form>
-				<br style="clear: both;" />
-			</p:panel>
-			<br />
-			<br />
-			<h:form id="grid">
-				<p:dataTable id="listagem" var="locador"
-					value="#{funcionarioBean.funcionariosCadastrados}" paginator="true"
-					rows="10" emptyMessage="Não existem funcionarios cadastrados."
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
-					<p:column headerText="Nome" style="width:90%">
-						<h:outputText value="#{locador.nome}" />
-					</p:column>
-					<p:column style="width:10%;text-align: center;" headerText="Ação">
-						<p:commandButton id="selectButtonEdit" update=":form"
-							actionListener="#{funcionarioBean.selecionarFuncionario(locador.id)}"
-							icon="ui-icon-pencil" title="View"></p:commandButton>
-						<p:commandButton id="selectButtonView" update=":grid:display"
-							oncomplete="locadorDialog.show()" icon="ui-icon-search"
-							actionListener="#{funcionarioBean.selecionarDetalhe(locador.id)}"
-							title="View">
-						</p:commandButton>
-					</p:column>
-				</p:dataTable>
-				<p:dialog header="Detalhes" widgetVar="locadorDialog"
-					resizable="false" id="carDlg" showEffect="fade"
-					hideEffect="explode" modal="true">
-					<p:accordionPanel id="display" multiple="true">
-						<p:tab title="Pessoa">
-							<h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
-								<h:outputText value="Nome:" />
-								<h:outputText value="#{funcionarioBean.funcionarioDetalhe.nome}" />
-
-								<h:outputText value="RG:" />
-								<h:outputText value="#{funcionarioBean.funcionarioDetalhe.rg}" />
-
-								<h:outputText value="Telefone:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.telefone}" />
-							</h:panelGrid>
-						</p:tab>
-						<p:tab title="Endereço">
-							<h:panelGrid columns="2" cellpadding="10">
-								<h:outputText value="Bairro:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.endereco.bairro}" />
-
-								<h:outputText value="CEP:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.endereco.cep}" />
-
-								<h:outputText value="Numero:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.endereco.numero}" />
-
-								<h:outputText value="Rua:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.endereco.rua}" />
-
-								<h:outputText value="Cidade:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.endereco.cidade.nome}" />
-
-								<h:outputText value="Estado:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.endereco.cidade.estado.nome}" />
-
-								<h:outputText value="Pais:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.endereco.cidade.estado.pais.nome}" />
-							</h:panelGrid>
-						</p:tab>
-						<p:tab title="Funcionario">
-							<h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
-								<h:outputText value="Matricula:" />
-								<h:outputText
-									value="#{funcionarioBean.funcionarioDetalhe.matricula}" />
-							</h:panelGrid>
-						</p:tab>
-					</p:accordionPanel>
-				</p:dialog>
+				</p:fieldset>
+				<br />
+				<p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:outputText value="Rua:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="rua" label="nome" size="40" required="true"
+								requiredMessage="Por favor, insira o nome."
+								value="#{funcionarioBean.funcionarioSelecionado.endereco.rua}">
+							</p:inputText>
+						</h:panelGroup>
+						<h:outputText value="Cep:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="cep" label="cep" size="40" required="true"
+								requiredMessage="Por favor, insira o cep."
+								value="#{funcionarioBean.funcionarioSelecionado.endereco.cep}">
+							</p:inputText>
+						</h:panelGroup>
+						<h:outputText value="Numero:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="numero" label="numero" size="40" required="true"
+								requiredMessage="Por favor, insira o numero."
+								value="#{funcionarioBean.funcionarioSelecionado.endereco.numero}">
+							</p:inputText>
+						</h:panelGroup>
+						<h:outputText value="Bairro:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="bairro" label="bairro" size="40" required="true"
+								requiredMessage="Por favor, insira o bairro."
+								value="#{funcionarioBean.funcionarioSelecionado.endereco.bairro}">
+							</p:inputText>
+						</h:panelGroup>
+						<h:outputText value="Complemento:"></h:outputText>
+						<p:inputTextarea autoResize="false" rows="10" cols="60"
+							value="#{funcionarioBean.funcionarioSelecionado.endereco.complemento}"></p:inputTextarea>
+						<h:outputText value="Pais:"></h:outputText>
+						<p:selectOneMenu id="pais" required="true"
+							value="#{funcionarioBean.enderecoBean.paisSelecionado}">
+							<f:selectItems value="#{funcionarioBean.enderecoBean.listaPais}" />
+							<p:ajax update="estado"
+								listener="#{funcionarioBean.enderecoBean.valueChangePais}"
+								event="change" />
+							<p:ajax update="cidade" event="change" />
+							<p:ajax update="cidade" event="change" />
+						</p:selectOneMenu>
+						<h:outputText value="Estado:"></h:outputText>
+						<p:selectOneMenu id="estado" required="true"
+							value="#{funcionarioBean.enderecoBean.estadoSelecionado}">
+							<f:selectItems
+								value="#{funcionarioBean.enderecoBean.listaEsdados}" />
+							<p:ajax update="cidade"
+								listener="#{funcionarioBean.enderecoBean.valueChangeEstado}"
+								event="change" />
+						</p:selectOneMenu>
+						<h:outputText value="Cidade:"></h:outputText>
+						<p:selectOneMenu id="cidade" required="true"
+							value="#{funcionarioBean.enderecoBean.cidadeSelecionada}">
+							<f:selectItems
+								value="#{funcionarioBean.enderecoBean.listaCidades}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</p:fieldset>
+				<br />
+				<p:fieldset legend="Funcionario" toggleable="true" toggleSpeed="500">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:outputText value="Matricula:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="matricula" label="matricula" size="40"
+								required="true" requiredMessage="Por favor, insira o matricula."
+								value="#{funcionarioBean.funcionarioSelecionado.matricula}">
+							</p:inputText>
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:fieldset>
+				<br />
+				<p:fieldset legend="Usuario" toggleable="true" toggleSpeed="500">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:outputText value="Login:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="login" label="login" size="40" required="true"
+								requiredMessage="Por favor, insira o login."
+								value="#{funcionarioBean.funcionarioSelecionado.usuario.login}">
+							</p:inputText>
+						</h:panelGroup>
+						<h:outputText value="Senha:"></h:outputText>
+						<h:panelGroup>
+							<p:inputText id="senha" label="senha" size="40" required="true"
+								requiredMessage="Por favor, insira o senha."
+								value="#{funcionarioBean.funcionarioSelecionado.usuario.senha}">
+							</p:inputText>
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:fieldset>
+				<br></br>
+				<h:panelGrid columns="2" cellpadding="10">
+					<p:commandButton value="Salvar" update=":grid,:form,:growl"
+						actionListener="#{funcionarioBean.salvarFuncionario}"></p:commandButton>
+					<p:commandButton
+						onclick="document.getElementById('limparButton').click()"
+						value="Limpar"></p:commandButton>
+				</h:panelGrid>
 			</h:form>
-			<h:form prependId="false">
-				<p:commandButton id="limparButton" value="Salvar"
-					update=":form,:growl" style="display:none"
-					actionListener="#{funcionarioBean.prepararNovoFuncionario}"></p:commandButton>
-			</h:form>
-		</ui:define>
-	</ui:composition>
+			<br style="clear: both;" />
+		</p:panel>
+		<br />
+		<br />
+		<h:form id="grid">
+			<p:dataTable id="listagem" var="locador"
+				value="#{funcionarioBean.funcionariosCadastrados}" paginator="true"
+				rows="10" emptyMessage="Não existem funcionarios cadastrados."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50">
+				<p:column headerText="Nome" style="width:90%">
+					<h:outputText value="#{locador.nome}" />
+				</p:column>
+				<p:column style="width:10%;text-align: center;" headerText="Ação">
+					<p:commandButton id="selectButtonEdit" update=":form"
+						actionListener="#{funcionarioBean.selecionarFuncionario(locador.id)}"
+						icon="ui-icon-pencil" title="View"></p:commandButton>
+					<p:commandButton id="selectButtonView" update=":grid:display"
+						oncomplete="locadorDialog.show()" icon="ui-icon-search"
+						actionListener="#{funcionarioBean.selecionarDetalhe(locador.id)}"
+						title="View">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:dialog header="Detalhes" widgetVar="locadorDialog"
+				resizable="false" id="carDlg" showEffect="fade" hideEffect="explode"
+				modal="true">
+				<p:accordionPanel id="display" multiple="true">
+					<p:tab title="Pessoa">
+						<h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
+							<h:outputText value="Nome:" />
+							<h:outputText value="#{funcionarioBean.funcionarioDetalhe.nome}" />
+
+							<h:outputText value="RG:" />
+							<h:outputText value="#{funcionarioBean.funcionarioDetalhe.rg}" />
+
+							<h:outputText value="Telefone:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.telefone}" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Endereço">
+						<h:panelGrid columns="2" cellpadding="10">
+							<h:outputText value="Bairro:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.endereco.bairro}" />
+
+							<h:outputText value="CEP:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.endereco.cep}" />
+
+							<h:outputText value="Numero:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.endereco.numero}" />
+
+							<h:outputText value="Rua:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.endereco.rua}" />
+
+							<h:outputText value="Cidade:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.endereco.cidade.nome}" />
+
+							<h:outputText value="Estado:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.endereco.cidade.estado.nome}" />
+
+							<h:outputText value="Pais:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.endereco.cidade.estado.pais.nome}" />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Funcionario">
+						<h:panelGrid columns="2" cellpadding="10" style="margin:0 auto;">
+							<h:outputText value="Matricula:" />
+							<h:outputText
+								value="#{funcionarioBean.funcionarioDetalhe.matricula}" />
+						</h:panelGrid>
+					</p:tab>
+				</p:accordionPanel>
+			</p:dialog>
+		</h:form>
+		<h:form prependId="false">
+			<p:commandButton id="limparButton" value="Salvar"
+				update=":form,:growl" style="display:none"
+				actionListener="#{funcionarioBean.prepararNovoFuncionario}"></p:commandButton>
+			<p:commandButton id="listarLocaisButton" value="Salvar"
+				update=":form" style="display:none"
+				actionListener="#{funcionarioBean.criarListagens}"></p:commandButton>
+		</h:form>
+		<script>
+			$(document).ready(function() {
+				$("#listarLocaisButton").click();
+			});
+		</script>
+	</ui:define>
 </ui:composition>
 </html>

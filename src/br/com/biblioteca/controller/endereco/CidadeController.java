@@ -101,6 +101,8 @@ public class CidadeController implements Serializable {
 	}
 
 	public void prepararListagemPais() {
+		this.listaPais.clear();
+		this.listaEsdados.clear();
 		for (Pais pais : this.paisDao.findAll()) {
 			this.listaPais.add(new SelectItem(pais.getId(), pais.getNome()));
 		}
@@ -133,7 +135,7 @@ public class CidadeController implements Serializable {
 
 	private void criarEstadosListagem() {
 		this.listaEsdados.clear();
-		if (this.paisSelecionado == 0l) {
+		if (this.paisSelecionado == 0l && this.listaPais.size() > 0) {
 			this.paisSelecionado = (Long) this.listaPais.get(0).getValue();
 		}
 		for (Estado es : this.getEstadosByPais()) {

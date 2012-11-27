@@ -35,6 +35,9 @@ public class EnderecoBean implements Serializable {
 	}
 
 	public void construirListagemEndereco() {
+		this.listaPais.clear();
+		this.listaEsdados.clear();
+		this.listaCidades.clear();
 		this.criarPaisListagem();
 		this.criarEstadosListagem();
 		this.criarCidadesListagem();
@@ -42,6 +45,9 @@ public class EnderecoBean implements Serializable {
 
 	public void construirListagemEndereco(long paisSelecionado,
 			long estadoSelecionado, long cidadeSelecionada) {
+		this.listaPais.clear();
+		this.listaEsdados.clear();
+		this.listaCidades.clear();
 		this.criarPaisListagem();
 		this.paisSelecionado = paisSelecionado;
 		this.criarEstadosListagem();
@@ -51,38 +57,49 @@ public class EnderecoBean implements Serializable {
 	}
 
 	private void criarPaisListagem() {
-		this.listaPais.clear();
 		for (Pais pais : this.paisDao.findAll()) {
 			this.listaPais.add(new SelectItem(pais.getId(), pais.getNome()));
 		}
 		if (this.listaPais.size() > 0) {
 			this.paisSelecionado = (Long) this.listaPais.get(0).getValue();
+		} else {
+			this.paisSelecionado = 0l;
 		}
 	}
 
 	private void criarEstadosListagem() {
-		this.listaEsdados.clear();
 		for (Estado es : this.getEstadosByPais()) {
 			this.listaEsdados.add(new SelectItem(es.getId(), es.getNome()));
 		}
 		if (this.listaEsdados.size() > 0) {
 			this.estadoSelecionado = (Long) this.listaEsdados.get(0).getValue();
+		} else {
+			this.estadoSelecionado = 0l;
 		}
 	}
 
 	private void criarCidadesListagem() {
-		this.listaCidades.clear();
 		for (Cidade ci : this.getCidadesByEstado()) {
 			this.listaCidades.add(new SelectItem(ci.getId(), ci.getNome()));
 		}
 	}
 
 	private List<Cidade> getCidadesByEstado() {
-		return cidadeDao.findAllByEstado(this.estadoSelecionado);
+		try {
+			return cidadeDao.findAllByEstado(this.estadoSelecionado);
+		} catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	private List<Estado> getEstadosByPais() {
-		return estadoDao.findAllByPais(new Long(this.paisSelecionado));
+		try {
+			return estadoDao.findAllByPais(new Long(this.paisSelecionado));
+		} catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	public long getPaisSelecionado() {
@@ -134,11 +151,14 @@ public class EnderecoBean implements Serializable {
 	}
 
 	public void valueChangePais(AjaxBehaviorEvent e) {
-		criarEstadosListagem();
-		criarCidadesListagem();
+		this.listaEsdados.clear();
+		this.criarEstadosListagem();
+		this.listaCidades.clear();
+		this.criarCidadesListagem();
 	}
 
 	public void valueChangeEstado(AjaxBehaviorEvent e) {
+		this.listaCidades.clear();
 		criarCidadesListagem();
 	}
 
